@@ -11,10 +11,15 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.4  # Specify the version you want to use
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
       - name: Build Docker Image
         run: docker build -t python-hello .
 
       - name: Run Docker Container
-        run: docker run -p 80:80 python-hello
+        run: docker run -p 8080:80 python-hello
