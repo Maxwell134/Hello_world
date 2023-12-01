@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout  # Use the default version
-
+      
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
