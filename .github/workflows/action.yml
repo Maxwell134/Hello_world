@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2.4.4  # Specify the version you want to use
+        uses: actions/checkout@v3  # Specify the version you want to use
 
       - name: Set up Python
         uses: actions/setup-python@v2
