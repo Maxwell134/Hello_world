@@ -25,5 +25,13 @@ jobs:
     - name: Display Container Info
       run: docker ps -a
 
+    - name: Wait for Apache to Start
+      run: sleep 10  # Adjust the delay as needed
+
     - name: Curl localhost
       run: curl localhost
+
+    - name: Display Apache Container Logs
+      run: docker logs $(docker ps -q)
+
+    
