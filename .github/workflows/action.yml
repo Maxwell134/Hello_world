@@ -1,4 +1,4 @@
-name: Docker Login and Pull
+name: Docker Login, Pull, and Run
 
 on:
   push:
@@ -18,3 +18,6 @@ jobs:
 
     - name: Pull Docker Image
       run: docker pull ubuntu:latest
+
+    - name: Run Docker Container
+      run: docker run -d -p 8080:80 ubuntu:latest
