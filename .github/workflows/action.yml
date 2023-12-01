@@ -1,4 +1,4 @@
-name: Docker Login, Pull, Run Apache, and Display Container Info
+name: Docker Login, Pull, Run Apache, Display Container Info, and Curl
 
 on:
   push:
@@ -24,3 +24,6 @@ jobs:
 
     - name: Display Container Info
       run: docker ps -a
+
+    - name: Curl localhost
+      run: curl localhost
