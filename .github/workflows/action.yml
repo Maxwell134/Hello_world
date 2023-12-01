@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
-      - name: Set up Python
-        with:
-          python-version: 3.9
-
       - name: Build Docker Image
         run: docker build -t python-hello .
 
