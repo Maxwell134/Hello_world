@@ -16,4 +16,4 @@ jobs:
           ref: master
 
     - name: Run Python Script
-      run: python main.py ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }} tom:tag 8080:80
+      run: python main.py ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }} ubuntu:tag 8080:80
