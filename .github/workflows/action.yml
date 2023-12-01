@@ -20,7 +20,7 @@ jobs:
       run: docker pull httpd:latest
 
     - name: Run Apache Container
-      run: docker run -d -p 8080:80 httpd:latest
+      run: docker run -d -p 80:80 httpd:latest
 
     - name: Display Container Info
       run: docker ps -a
