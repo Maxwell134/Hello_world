@@ -12,10 +12,10 @@ def run_docker_container(image_name, port_mapping):
 
 if __name__ == "__main__":
     # Input parameters from GitHub Actions YAML
-    docker_username = sys.argv[1]
-    docker_password = sys.argv[2]
-    docker_image = sys.argv[3]
-    port_mapping = sys.argv[4]
+    docker_username = sys.argv[0]
+    docker_password = sys.argv[1]
+    docker_image = sys.argv[2]
+    port_mapping = sys.argv[3]
 
     # Login to Docker
     login_to_docker(docker_username, docker_password)
