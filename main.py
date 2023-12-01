@@ -1,16 +1,27 @@
-# This is a sample Python script.
+import subprocess
+import sys
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+def login_to_docker(username, password):
+    subprocess.run(['docker', 'login', '-u', username, '-p', password])
 
+def pull_docker_image(image_name):
+    subprocess.run(['docker', 'pull', image_name])
 
-def print_hi():
-    # Use a breakpoint in the code line below to debug your script.
-    print("Hello world")  # Press ⌘F8 to toggle the breakpoint.
+def run_docker_container(image_name, port_mapping):
+    subprocess.run(['docker', 'run', '-d', '-p', port_mapping, image_name])
 
+if __name__ == "__main__":
+    # Input parameters from GitHub Actions YAML
+    docker_username = sys.argv[1]
+    docker_password = sys.argv[2]
+    docker_image = sys.argv[3]
+    port_mapping = sys.argv[4]
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi()
+    # Login to Docker
+    login_to_docker(docker_username, docker_password)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Pull Docker image
+    pull_docker_image(docker_image)
+
+    # Run Docker container
+    run_docker_container(docker_image, port_mapping)
