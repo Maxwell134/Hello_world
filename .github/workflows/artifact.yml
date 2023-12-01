@@ -1,32 +1,32 @@
-name: Python Hello World
+# name: Python Hello World
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-         ref: master
+#     steps:
+#     - name: Checkout Repository
+#       uses: actions/checkout@v3
+#       with:
+#          ref: master
       
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.8
+#     - name: Set up Python
+#       uses: actions/setup-python@v3
+#       with:
+#         python-version: 3.8
 
-    - name: Run Python Script
-      run: python main.py > output.txt
+#     - name: Run Python Script
+#       run: python main.py > output.txt
       
 
-    - name: Upload Output as Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: hello-output
-        path: output.txt
+#     - name: Upload Output as Artifact
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: hello-output
+#         path: output.txt
