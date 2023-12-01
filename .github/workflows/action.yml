@@ -18,6 +18,5 @@ jobs:
 
       - name: Run Docker Container
         run: docker run -p 8080:80 python-hello
-        ports:
-          - 8080:80
+        
 
