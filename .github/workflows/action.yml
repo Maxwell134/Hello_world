@@ -1,4 +1,4 @@
-name: Docker Login, Build, Tag, Push, Run Apache, Display Container Info, and Curl
+name: Docker Login, Pull, and Run
 
 on:
   push:
@@ -15,32 +15,5 @@ jobs:
       with:
           ref: master
 
-    - name: Docker Login
-      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build Docker Image
-      run: docker build -t my-apache-image .
-
-    - name: Tag Docker Image
-      run: docker tag my-apache-image ${{ secrets.DOCKER_USERNAME }}/my-apache-image:latest
-
-    - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/my-apache-image:latest
-
-    - name: Pull Apache Image
-      run: docker pull ${{ secrets.DOCKER_USERNAME }}/my-apache-image:latest
-
-    - name: Run Apache Container
-      run: docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/my-apache-image:latest
-
-    - name: Display Container Info
-      run: docker ps -a
-
-    - name: Wait for Apache to Start
-      run: sleep 10  # Adjust the delay as needed
-
-    - name: Curl localhost
-      run: curl localhost
-
-    - name: Display Apache Container Logs
-      run: docker logs $(docker ps -q)
+    - name: Run Python Script
+      run: python main.py ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }} tom:tag 8080:80
