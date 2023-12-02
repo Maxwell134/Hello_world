@@ -3,7 +3,7 @@ name: Docker Login, Pull, and Run
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
