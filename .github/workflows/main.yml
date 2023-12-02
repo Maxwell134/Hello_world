@@ -1,4 +1,4 @@
-name: Build and Run now
+name: Build and Run
 
 on:
   push:
