@@ -7,7 +7,7 @@ def docker_login(username, password):
     if username and password:
         
         login_command = f"docker login -u {username} -p {password}"
-        login_docker = subprocess.run(login_command)
+        login_docker = subprocess.run(login_command, shell=True, capture_output=True, text=True)
 
         if login_docker:
             print(f"{username} exist")
