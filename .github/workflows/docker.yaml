@@ -17,7 +17,7 @@ jobs:
 #          ref: master
 
       - name: Run python script
-        run: python3 main.py
+        run: python3 dock.py
         env:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
