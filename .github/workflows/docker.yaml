@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: alpine-latest
 
     steps:
       - name: Checkout Repository
