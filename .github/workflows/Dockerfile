@@ -1,12 +1,14 @@
 FROM ubuntu
 
-# Install Python
+# Install Apache
 RUN apt-get update && \
-    apt-get install -y python3
+    apt-get install -y apache2
 
-WORKDIR /app
-# Copy Python script
-COPY dock.py /app
+# Copy HTML file to web server directory
+COPY index.html /var/www/html/
 
-# Run Python script
-CMD ["python3", "dock.py"]
+# Expose port 80 for web traffic
+EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apache2ctl", "-D", "FOREGROUND"]
