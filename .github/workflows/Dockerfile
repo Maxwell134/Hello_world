@@ -4,11 +4,12 @@ FROM ubuntu
 RUN apt-get update && \
     apt-get install -y python3
 
+WORKDIR /app
 # Copy Python script
-COPY dock.py /app/dock.py
+COPY dock.py /app
 
 # Set working directory
-WORKDIR /app
+
 
 # Run Python script
 CMD ["python3", "dock.py"]
