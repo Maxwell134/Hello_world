@@ -1,9 +1,18 @@
 import os
+import subprocess
+from  requests import status_codes
 
 def docker_login(username, password):
 
     if username and password:
-        print(f"{username} exist and  you are login sucessfully")
+        
+        login_command = f"docker login -u {username} -p {password}"
+        login_docker = subprocess.run(login_command)
+
+        if login_docker:
+            print(f"{username} exist")
+        else:
+            print("Not correct")    
 
     else:
         print("User doesnot exist")
