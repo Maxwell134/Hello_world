@@ -8,8 +8,5 @@ WORKDIR /app
 # Copy Python script
 COPY dock.py /app
 
-# Set working directory
-
-
 # Run Python script
 CMD ["python3", "dock.py"]
