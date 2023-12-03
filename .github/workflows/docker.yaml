@@ -22,14 +22,14 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: delete docker images 
+        run: docker rmi $(docker images -qa)
+
       - name: Docker Build
         run: docker build -t image .
 
-      - name: Show Docker Context
-        run: ls -la
-
       - name: Show Docker Build Context
-        run: ls -la $GITHUB_WORKSPACE
+        run: ls -lrth  $GITHUB_WORKSPACE
 
       - name: Docker Images
         run: docker images
