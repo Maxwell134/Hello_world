@@ -1,4 +1,5 @@
-name: Docker login , pull and Run
+name: Docker login, pull, and Run
+
 on:
   push:
     branches:
@@ -6,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,27 +15,27 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-#        with:
-#          ref: master
 
-      - name: Run python script
+      - name: Run Python Script
         run: python3 dock.py
         env:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker build
+      - name: Docker Build
         run: docker build -t image .
 
-      - name: Docker images
+      - name: Show Docker Context
+        run: ls -la
+
+      - name: Show Docker Build Context
+        run: ls -la $GITHUB_WORKSPACE
+
+      - name: Docker Images
         run: docker images
 
-      - name: docker run container
-        run: docker run  --name  my_life -itd  -p 80:80 image
+      - name: Docker Run Container
+        run: docker run --name my_life -itd -p 80:80 image
 
-      - name: docker containers
+      - name: Docker Containers
         run: docker ps -a
-
-
-
-
