@@ -63,3 +63,7 @@ jobs:
 
       - name: Push Docker Image to Main
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}
+
+      - name: Delete  all Docker Config File
+        run: rm -f /home/runner/.docker/config.json
+
