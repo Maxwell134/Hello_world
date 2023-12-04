@@ -20,7 +20,7 @@ jobs:
 
       - name: Check if Docker Image Exists on Docker Hub
         id: check-docker-image
-        run: python3 docker_login.py
+        run: python3 Hello_world/docker_login.py
           
         env:
           INPUT_IMAGE: ${{ inputs.image }}
