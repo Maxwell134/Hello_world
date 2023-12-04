@@ -9,9 +9,6 @@ on:
         required: true
         type: string
 
-  push:
-    branches:
-      - main
 
 jobs:
   pull-and-run-docker-image:
@@ -24,6 +21,7 @@ jobs:
       - name: Check if Docker Image Exists on Docker Hub
         id: check-docker-image
         run: python3 docker_login.py
+          
         env:
           INPUT_IMAGE: ${{ inputs.image }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
