@@ -34,3 +34,4 @@ if __name__ == "__main__":
 
     # Output result for GitHub Actions
     print(f"::set-output name=image_exists::{str(image_exists).lower()}")
+    print(f"API URL: {api_url}")
