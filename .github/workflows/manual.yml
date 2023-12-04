@@ -9,6 +9,10 @@ on:
         required: true
         type: string
 
+  push:
+    branches:
+      - main
+
 jobs:
   pull-and-run-docker-image:
     runs-on: ubuntu-latest
