@@ -9,12 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    outputs:
-      id: steps-output
-      value:
-        image: ${{ steps.set-docker-image.outputs.image }}
-        login-success: ${{ steps.set-docker-login.outputs.login-success }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -41,7 +35,9 @@ jobs:
         run: echo "::set-output name=login-success::true"
 
       - name: Run Docker Login Script
-        run: python path/to/docker_login.py
+        run: python3 docker_login.py
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      
