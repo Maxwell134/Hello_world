@@ -3,7 +3,7 @@ import subprocess
 
 def check_docker_image_exists(image_name, username, password):
     # Login to Docker Hub
-    docker_login_cmd = f'echo "{password}" | docker login -u "{username}" --password-stdin'
+    docker_login_cmd = docker login -u "{username}" --password-stdin'
     subprocess.run(docker_login_cmd, shell=True, check=True)
 
     # Check if the image exists
