@@ -9,21 +9,21 @@ jobs:
   pull-docker-image:
     runs-on: ubuntu-latest
 
-  inputs:
+    inputs:
       image:
         description: 'Docker image to pull'
         required: true
 
-  outputs:
+    outputs:
       id: image-details
       value:
         image: ${{ needs.pull-docker-image.outputs.image }}
 
-  steps:
-    - name: Pull Docker Image
-      id: pull-docker-image
-      run: docker pull ${{ inputs.image }}
+    steps:
+      - name: Pull Docker Image
+        id: pull-docker-image
+        run: docker pull ${{ inputs.image }}
 
-    - name: Set Docker Image Output
-      id: set-docker-image
-      run: echo "::set-output name=image::${{ inputs.image }}"
+      - name: Set Docker Image Output
+        id: set-docker-image
+        run: echo "::set-output name=image::${{ inputs.image }}"
