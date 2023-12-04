@@ -25,6 +25,10 @@ def check_docker_image_exists(image_name, username, password):
         print(f"Failed to check the status of the image on Docker Hub. Status code: {response.status_code}")
         return "error"
 
+    print(f"::set-output name=image_exists::{str(image_exists).lower()}")
+    print(f"API URL: {api_url}")
+
+
 if __name__ == "__main__":
     image_name = os.environ.get('INPUT_IMAGE')
     docker_username = os.environ.get('DOCKER_USERNAME')
@@ -33,5 +37,4 @@ if __name__ == "__main__":
     image_exists = check_docker_image_exists(image_name, docker_username, docker_password)
 
     # Output result for GitHub Actions
-    print(f"::set-output name=image_exists::{str(image_exists).lower()}")
-    print(f"API URL: {api_url}")
+    
