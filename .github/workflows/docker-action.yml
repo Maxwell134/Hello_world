@@ -29,13 +29,19 @@ jobs:
       - name: Docker Login
         id: docker-login
         run: |
-          echo "${{ secrets.DOCKER_USERNAME }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Set Docker Login Output
         id: set-docker-login
         run: echo "::set-output name=login-success::true"
+
+      - name: Run Docker Login Script
+        run: python path/to/docker_login.py
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     outputs:
       image: ${{ steps.set-docker-image.outputs.image }}
