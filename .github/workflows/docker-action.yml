@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   docker_simple:
     runs-on: ubuntu-latest
