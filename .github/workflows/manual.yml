@@ -16,3 +16,6 @@ jobs:
     steps:
       - name: Pull Docker Image
         run: docker pull ${{ inputs.image }}
+
+      - name: docker images
+        run: docker ps -a 
