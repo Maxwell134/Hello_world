@@ -15,12 +15,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: main
       - name: Delete existing images
         run: docker rmi $(docker images -qa)
 
       - name: Check if Docker Image Exists on Docker Hub
         id: check-docker-image
-        run: python3 Hello_world/docker_login.py
+        run: python3 docker_login.py
           
         env:
           INPUT_IMAGE: ${{ inputs.image }}
