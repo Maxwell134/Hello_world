@@ -1,29 +1,16 @@
-name: Pull Docker Image
+name: "Docker Simple"
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
-  pull-docker-image:
+  docker_simple:
     runs-on: ubuntu-latest
-
-    inputs:
-      image:
-        description: 'Docker image to pull'
-        required: true
-
-    outputs:
-      id: image-details
-      value:
-        image: ${{ needs.pull-docker-image.outputs.image }}
-
+    name: "A Simple Docker Action"
     steps:
-      - name: Pull Docker Image
-        id: pull-docker-image
-        run: docker pull ${{ inputs.image }}
+      - name: "Greet & Output Time"
+        id: hello
+        with:
+          who-to-greet: 'Mona the Octocat'
 
-      - name: Set Docker Image Output
-        id: set-docker-image
-        run: echo "::set-output name=image::${{ inputs.image }}"
+      - name: "Get the output time"
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
