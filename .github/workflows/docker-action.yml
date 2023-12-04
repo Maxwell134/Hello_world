@@ -1,0 +1,42 @@
+name: Docker Action Example
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      steps-output: ${{ needs.docker-login.outputs }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Pull Docker Image
+        id: docker-pull
+        uses: actions/docker/cli@v2
+        with:
+          args: pull ${{ inputs.image }}
+
+      - name: Set Docker Image Output
+        id: set-docker-image
+        run: echo "::set-output name=image::${{ steps.docker-pull.outputs.image }}"
+
+      - name: Docker Login
+        id: docker-login
+        run: |
+          echo "${{ secrets.DOCKER_USERNAME }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Set Docker Login Output
+        id: set-docker-login
+        run: echo "::set-output name=login-success::true"
+
+    outputs:
+      image: ${{ steps.set-docker-image.outputs.image }}
+      login-success: ${{ steps.set-docker-login.outputs.login-success }}
