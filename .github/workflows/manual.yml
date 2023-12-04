@@ -17,6 +17,14 @@ jobs:
       - name: Delete existing images
         run: docker rmi $(docker images -qa)
 
+      - name: Check if Docker Image Exists on Docker Hub
+        id: check-docker-image
+        run: python3 docker_login.py
+        env:
+          INPUT_IMAGE: ${{ inputs.image }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Pull Docker Image
         run: docker pull ${{ inputs.image }}
 
