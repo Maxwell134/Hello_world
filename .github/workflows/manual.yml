@@ -26,7 +26,11 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Docker Image
+        if: steps.check-docker-image.outputs.image_exists == 'false'
         run: docker pull ${{ inputs.image }}
+
+      # - name: Pull Docker Image
+      #   run: docker pull ${{ inputs.image }}
 
       - name: Show Docker Images
         run: docker images
