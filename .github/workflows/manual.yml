@@ -10,12 +10,15 @@ on:
         type: string
 
 jobs:
-  pull-docker-image:
+  pull-and-run-docker-image:
     runs-on: ubuntu-latest
 
     steps:
       - name: Pull Docker Image
         run: docker pull ${{ inputs.image }}
 
-      - name: docker images
-        run: docker ps -a 
+      - name: Show Docker Images
+        run: docker images
+
+      - name: Run Docker Container
+        run: docker run -itd --name my-container -p 80:80 ${{ inputs.image }}
