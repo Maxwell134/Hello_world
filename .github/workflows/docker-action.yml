@@ -1,4 +1,4 @@
-name: "Docker Simple"
+name: Simple Workflow with Input and Output
 
 on:
   push:
@@ -6,14 +6,28 @@ on:
       - main
 
 jobs:
-  docker_simple:
+  simple_job:
     runs-on: ubuntu-latest
-    name: "A Simple Docker Action"
-    steps:
-      - name: "Greet & Output Time"
-        id: hello
-        with:
-          who-to-greet: 'Mona the Octocat'
 
-      - name: "Get the output time"
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+    inputs:
+      parameters:
+        - name: greeting
+          description: 'Greeting message'
+          required: true
+        - name: who-to-greet
+          description: 'Name to greet'
+          required: true
+
+    outputs:
+      id: greeting-output
+      value:
+        greeting: ${{ needs.simple_job.outputs.greeting }}
+        who: ${{ needs.simple_job.outputs.who }}
+
+    steps:
+      - name: Set Greeting and Who
+        id: set-greeting
+        run: echo "::set-output name=greeting::${{ inputs.greeting }}::set-output name=who::${{ inputs.who-to-greet }}"
+
+      - name: Show Greeting
+        run: echo "Greeting: ${{ needs.simple_job.outputs.greeting }} to ${{ needs.simple_job.outputs.who }}"
