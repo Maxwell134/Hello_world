@@ -1,6 +1,9 @@
-name: Manual workflow
+name: Docker Build and Push
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       image:
@@ -22,3 +25,15 @@ jobs:
 
       - name: Run Docker Container
         run: docker run -itd --name my-container -p 80:80 ${{ inputs.image }}
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Tag Docker Image
+        run: docker tag ${{ inputs.image }} ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}
+
+      - name: Push Docker Image to Main
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}
