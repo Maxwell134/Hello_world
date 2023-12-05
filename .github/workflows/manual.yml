@@ -58,10 +58,10 @@ jobs:
         run: curl localhost:80
         
       - name: Tag Docker Image
-        run: docker tag ${{ inputs.image }} ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}
+        run: docker tag ${{ inputs.image }} ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}:${{ image_tag }}
 
       - name: Push Docker Image to Main
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}:${{ image_tag }}
 
       - name: Delete  all Docker Config File
         run: rm -f /home/runner/.docker/config.json
