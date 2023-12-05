@@ -33,7 +33,7 @@ if __name__ == "__main__":
     image_name = os.environ.get('INPUT_IMAGE')
     docker_username = os.environ.get('DOCKER_USERNAME')
     docker_password = os.environ.get('DOCKER_PASSWORD')
-    image_tag = os.environ.get('image_tag)
+    image_tag = os.environ.get('INPUT_IMAGE_TAG')
 
     image_exists = check_docker_image_exists(image_name, docker_username, docker_password, image_tag)
 
