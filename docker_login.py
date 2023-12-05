@@ -5,14 +5,14 @@ import requests
 def check_docker_image_exists(image_name, username, password):
     # Login to Docker Hub
     docker_login_cmd = f'docker login -u {username} -p {password}'
-    api_url = f'https://hub.docker.com/v2/repositories/{username}/{image_name}/tags'
+    api_url = f'https://hub.docker.com/v2/repositories/{username}/{image_name}/{image_tag}'
     
     subprocess.run(docker_login_cmd, shell=True, check=True)
 
     response = requests.get(api_url)
 
     # Check if the image exists
-    docker_pull_cmd = f'docker pull {image_name}'
+    docker_pull_cmd = f'docker pull {image_name}:{image_tag}'
     pull_result = subprocess.run(docker_pull_cmd, shell=True, stderr=subprocess.PIPE)
 
     if response.status_code == 200:
