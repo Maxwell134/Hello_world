@@ -10,10 +10,9 @@ on:
         type: string
 
       image_tag: 
-        description: 'docker image tag'
+        description: 'Docker image tag'
         required: true
         type: string
-
 
 jobs:
   pull-and-run-docker-image:
@@ -25,6 +24,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
+
       - name: Delete existing images
         run: docker rmi $(docker images -qa)
 
@@ -33,17 +33,14 @@ jobs:
         run: python3 docker_login.py
           
         env:
-          INPUT_IMAGE: ${{ inputs.image }}
-          INPUT_IMAGE_TAG: ${{ inputs.image_tag }}
+          image: ${{ inputs.image }}
+          image_tag: ${{ inputs.image_tag }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Docker Image
         if: steps.check-docker-image.outputs.image_exists == 'false'
-        run: docker pull ${{ inputs.image }}:{{ inputs.image_tag }}
-
-      # - name: Pull Docker Image
-      #   run: docker pull ${{ inputs.image }}
+        run: docker pull ${{ inputs.image }}:${{ inputs.image_tag }}
 
       - name: Show Docker Images
         run: docker images
@@ -58,11 +55,10 @@ jobs:
         run: curl localhost:80
         
       - name: Tag Docker Image
-        run: docker tag ${{ inputs.image }} ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}:${{ inputs.image_tag }}
+        run: docker tag ${{ inputs.image }}:${{ inputs.image_tag }} ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}:${{ inputs.image_tag }}
 
       - name: Push Docker Image to Main
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image }}:${{ inputs.image_tag }}
 
-      - name: Delete  all Docker Config File
+      - name: Delete all Docker Config File
         run: rm -f /home/runner/.docker/config.json
-
