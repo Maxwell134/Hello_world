@@ -49,7 +49,7 @@ jobs:
         run: docker images
 
       - name: Run Docker Container
-        run: docker run -itd --name my-container -p 80:80 ${{ inputs.image }}:{{ inputs.image_tag }}
+        run: docker run -itd --name my-container -p 80:80 ${{ inputs.image }}:${{ inputs.image_tag }}
 
       - name: Wait for Container to be Ready
         run: sleep 10s
