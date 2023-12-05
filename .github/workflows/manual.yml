@@ -34,6 +34,7 @@ jobs:
           
         env:
           INPUT_IMAGE: ${{ inputs.image }}
+          INPUT_IMAGE_TAG: ${{ inputs.image_tag }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -48,7 +49,7 @@ jobs:
         run: docker images
 
       - name: Run Docker Container
-        run: docker run -itd --name my-container -p 80:80 ${{ inputs.image }}
+        run: docker run -itd --name my-container -p 80:80 ${{ inputs.image }}:{{ inputs.image_tag }}
 
       - name: Wait for Container to be Ready
         run: sleep 10s
