@@ -35,7 +35,7 @@ if __name__ == "__main__":
     docker_password = os.environ.get('DOCKER_PASSWORD')
     image_tag = os.environ.get('image_tag)
 
-    image_exists = check_docker_image_exists(image_name, docker_username, docker_password)
+    image_exists = check_docker_image_exists(image_name, docker_username, docker_password, image_tag)
 
     # Output result for GitHub Actions
     
