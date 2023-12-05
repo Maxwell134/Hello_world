@@ -9,6 +9,11 @@ on:
         required: true
         type: string
 
+      image_tag: 
+        description: 'docker image tag'
+        required: true
+        type: string
+
 
 jobs:
   pull-and-run-docker-image:
@@ -34,7 +39,7 @@ jobs:
 
       - name: Pull Docker Image
         if: steps.check-docker-image.outputs.image_exists == 'false'
-        run: docker pull ${{ inputs.image }}
+        run: docker pull ${{ inputs.image }}:{{ inputs.image_tag }}
 
       # - name: Pull Docker Image
       #   run: docker pull ${{ inputs.image }}
