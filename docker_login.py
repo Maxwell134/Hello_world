@@ -2,7 +2,7 @@ import os
 import subprocess
 import requests
 
-def check_docker_image_exists(image_name, username, password):
+def check_docker_image_exists(image_name, username, password, image_tag):
     # Login to Docker Hub
     docker_login_cmd = f'docker login -u {username} -p {password}'
     api_url = f'https://hub.docker.com/v2/repositories/{username}/{image_name}/{image_tag}'
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     image_name = os.environ.get('INPUT_IMAGE')
     docker_username = os.environ.get('DOCKER_USERNAME')
     docker_password = os.environ.get('DOCKER_PASSWORD')
+    image_tag = os.environ.get('image_tag)
 
     image_exists = check_docker_image_exists(image_name, docker_username, docker_password)
 
