@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
       
     # workflow_dispatch
     
@@ -42,8 +43,8 @@ jobs:
     - name: docker containiners
       run: docker ps -a 
 
-    # - name: Test the running container
-    #   run: curl http://localhost:80  # Replace with your actual test command
+    - name: Test the running container
+      run: curl http://localhost:80  # Replace with your actual test command
 
     - name: Wait for the Flask app to start
       run: sleep 10
