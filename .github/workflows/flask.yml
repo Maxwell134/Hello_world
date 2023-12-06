@@ -32,7 +32,7 @@ jobs:
       run: docker build -t myflaskapp test/
 
     - name: Run Docker container
-      run: docker run --rm -itd -p 5000:5000 myflaskapp
+      run: docker run -itd -p 5000:5000 myflaskapp
       
 
     - name: Wait for the Flask app to start
