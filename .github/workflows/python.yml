@@ -1,24 +1,26 @@
-# name: Python Hello World
+name: Python Hello World
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  # push:
+  #   branches:
+  #     - main
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+  workflow_dispatch:
 
-#     steps:
-#     - name: Checkout Repository
-#       uses: actions/checkout@v3
-#       with:
-#         ref: master  # Specify the branch to checkout
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-#     - name: Set up Python
-#       uses: actions/setup-python@v4
-#       with:
-#         python-version: 3.8
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        ref: master  # Specify the branch to checkout
 
-#     - name: Run Python Script
-#       run: python main.py
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8
+
+    - name: Run Python Script
+      run: python main.py
