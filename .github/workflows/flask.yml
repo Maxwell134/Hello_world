@@ -18,15 +18,15 @@ jobs:
         path: test  # Path where you want to checkout the files
         ref: master
 
-    # - name: Set up Python
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: 3.x
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
 
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     pip install -r test/pipreqs
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r test/requirements.txt
 
     - name: Build Docker image
       run: docker build -t myflaskapp test/
