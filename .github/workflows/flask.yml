@@ -1,0 +1,42 @@
+name: Docker Build and Run
+
+on:
+  # push:
+  #   branches:
+  #     - main
+    workflow_dispatch
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        repository: Maxwell134/test
+        path: test  # Path where you want to checkout the files
+        ref: master
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r test/requirements.txt
+
+    - name: Build Docker image
+      run: docker build -t myflaskapp test/
+
+    - name: Run Docker container
+      run: docker run -p 5000:5000 myflaskapp
+      
+
+    - name: Wait for the Flask app to start
+      run: sleep 10  # Adjust the sleep duration based on your application's startup time
+
+    - name: Test the running container
+      run: curl http://localhost:5000  # Replace with your actual test command
