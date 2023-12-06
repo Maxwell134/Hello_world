@@ -10,7 +10,7 @@ on:
     
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -20,10 +20,28 @@ jobs:
         path: test  # Path where you want to checkout the files
         ref: master
 
+    - name: Check OS
+        run:|
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            echo "Running on Linux"
+            cat /etc/os-release
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            echo "Running on Windows"
+            systeminfo | find "OS Name"
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            echo "Running on macOS"
+            sw_vers -productVersion
+          else
+            echo "Unknown operating system"
+          fi
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
+
+    - name:  check version 
+      run: Python -V
 
     - name: Install dependencies
       run: |
