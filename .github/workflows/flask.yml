@@ -49,14 +49,14 @@ jobs:
     - name: Wait for the Flask app to start
       run: sleep 10
 
-    - name: Delete all containers 
-      run: docker rm -f $(docker ps -qa)
+    # - name: Delete all containers 
+    #   run: docker rm -f $(docker ps -qa)
       
-    - name: Delete images
-      run: docker rmi $(docker images -qa)
+    # - name: Delete images
+    #   run: docker rmi $(docker images -qa)
 
-    - name: Signing off
-      run: echo " signing off"
+    # - name: Signing off
+    #   run: echo " signing off"
       
 
 
