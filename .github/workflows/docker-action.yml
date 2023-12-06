@@ -1,10 +1,11 @@
 name: Simple Workflow with Input and Output
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 
+  workflow_dispatch:
 jobs:
   simple_job:
     runs-on: ubuntu-latest
