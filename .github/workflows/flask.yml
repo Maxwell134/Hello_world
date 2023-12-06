@@ -38,8 +38,11 @@ jobs:
     - name: Wait for the Flask app to start
       run: sleep 2  # Adjust the sleep duration based on your application's startup time
 
-    # - name: Test the running container
-    #   run: curl http://localhost:5000  # Replace with your actual test command
+    - name: Test the running container
+      run: curl http://localhost:5000  # Replace with your actual test command
+
+    - name: Wait for the Flask app to start
+      run: sleep 10
 
     - name: Delete all containers 
       run: docker rm -f $(docker ps -qa)
