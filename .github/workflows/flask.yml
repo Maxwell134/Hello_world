@@ -5,23 +5,21 @@ on:
     branches:
       - main
       - master
-      
-    # workflow_dispatch
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        repository: Maxwell134/test
-        path: test  # Path where you want to checkout the files
-        ref: master
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: Maxwell134/test
+          path: test
+          ref: master
 
-    - name: Check OS
-        run:|
+      - name: Check OS
+        run: |
           if [[ "$RUNNER_OS" == "Linux" ]]; then
             echo "Running on Linux"
             cat /etc/os-release
@@ -35,51 +33,33 @@ jobs:
             echo "Unknown operating system"
           fi
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-    - name:  check version 
-      run: Python -V
+      - name: Check Python version
+        run: python -V
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r test/requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r test/requirements.txt
 
-    - name: Build Docker image
-      run: docker build -t myflaskapp test/
+      - name: Build Docker image
+        run: docker build -t myflaskapp test/
 
-    - name: Run Docker container
-      run: docker run -itd -p 80:80 myflaskapp
-      
+      - name: Run Docker container
+        run: docker run -itd -p 80:80 myflaskapp
 
-    - name: Wait for the Flask app to start
-      run: sleep 5  # Adjust the sleep duration based on your application's startup time
+      - name: Wait for the Flask app to start
+        run: sleep 5
 
-    - name: docker containiners
-      run: docker ps -a 
+      - name: Docker containers
+        run: docker ps -a
 
-    - name: Test the running container
-      run: curl http://localhost:80  # Replace with your actual test command
+      - name: Test the running container
+        run: curl http://localhost:80
 
-    - name: Wait for the Flask app to start
-      run: sleep 10
-
-    # - name: Delete all containers 
-    #   run: docker rm -f $(docker ps -qa)
-      
-    # - name: Delete images
-    #   run: docker rmi $(docker images -qa)
-
-    # - name: Signing off
-    #   run: echo " signing off"
-      
-
-
-
-
-
-
-
+      - name: Wait for the Flask app to start
+        run: sleep 10
