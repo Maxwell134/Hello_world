@@ -10,7 +10,7 @@ on:
     
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: alpine-latest
 
     steps:
     - name: Checkout code
