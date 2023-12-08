@@ -18,16 +18,18 @@ jobs:
 
     - name: Set up SSH
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ls -l ~/.ssh  # Add this line for debug output
-        cat ~/.ssh/id_rsa  # Add this line for debug output
-        echo "Host your-ec2-instance
-          HostName ${{ github.event.inputs.ec2-public-ip }}
-          User ubuntu
-          IdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
-          ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
+        
+              mkdir -p ~/.ssh
+              echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+              ls -l ~/.ssh
+              cat ~/.ssh/id_rsa
+              echo "Host your-ec2-instance
+                    HostName ${{ github.event.inputs.ec2-public-ip }}
+                    User ubuntu
+                    IdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
+              ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
+
 
 
     - name: SSH into EC2 and Run Script
