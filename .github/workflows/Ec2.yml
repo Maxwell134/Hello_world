@@ -16,22 +16,20 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set up SSH
-      run: |
-        
-              mkdir -p ~/.ssh
-              echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
-              chmod 600 ~/.ssh/id_rsa
-              ls -l ~/.ssh
-              cat ~/.ssh/id_rsa
-              echo "Host your-ec2-instance
-                    HostName ${{ github.event.inputs.ec2-public-ip }}
-                    User ubuntu
-                    IdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
-              ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
-
-
-
+    - name: Executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      
+      with:
+          host: ${{ inputs.ec2-public-ip }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            sudo apt-get -y update
+            sudo apt-get install -y apache2
+            sudo systemctl start apache2
+            sudo systemctl enable apache2
+            # cd home
+            # sudo mv * /var/www/html
     - name: SSH into EC2 and Run Script
       run: |
         ssh -v your-ec2-instance 'bash -s' < script.sh
