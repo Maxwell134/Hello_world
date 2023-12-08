@@ -20,17 +20,18 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    # - name: Set up SSH
-    #   run: |
-    #     mkdir -p ~/.ssh
-    #     echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
-    #     chmod 600 ~/.ssh/id_rsa
-    #     ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
+    - name: Set up SSH
+      run: |
+      
+        mkdir -p ~/.ssh
+        echo "${{ secrets.ACCESS_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
+
 
     - name: SSH into EC2
       run: |
   
-        # ssh -i ~/ ubuntu@${{ github.event.inputs.ec2-public-ip }}
-        ssh -i "{{ secrets.ACCESS_KEY }}" ubuntu@ec2-204-236-201-139.compute-1.amazonaws.com
+        ssh -i ~/.ssh/id_rsa ubuntu@${{ github.event.inputs.ec2-public-ip }}
 
         
