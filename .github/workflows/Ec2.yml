@@ -7,10 +7,6 @@ on:
         description: 'EC2 Public IP'
         required: true
         type: string
-      private-key:
-        description: 'Private key'
-        required: true
-        type: string
 
 jobs:
   ssh-into-ec2:
