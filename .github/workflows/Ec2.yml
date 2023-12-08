@@ -1,4 +1,4 @@
-name: SSH into EC2 Instance
+name: SSH into EC2 Instance and Run Script
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
         description: 'EC2 Public IP'
         required: true
         type: string
-      private-key-path:
-        description: 'Path to private key'
+      private-key:
+        description: 'Private key'
         required: true
         type: string
 
@@ -18,36 +18,19 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up SSH
       run: |
-      
         mkdir -p ~/.ssh
-        echo "${{ secrets.ACCESS_KEY }}" > ~/.ssh/id_rsa
-        chmod 400 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
-        
-    - name: check file 
-      run: |
-
-        ls -l ~/.ssh
+        echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        cat ~/.ssh/id_rsa
-        ssh-add -l
-        ssh-add ~/.ssh/id_rsa
+        echo "Host your-ec2-instance
+              HostName ${{ github.event.inputs.ec2-public-ip }}
+              User ubuntu
+              IdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
+        ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
 
-
-
-
-
-      
-       
-
-
-    # - name: SSH into EC2
-    #   run: |
-  
-    #     ssh -i ~/.ssh/id_rsa ubuntu@${{ github.event.inputs.ec2-public-ip }}
-
-        
+    - name: SSH into EC2 and Run Script
+      run: |
+        ssh your-ec2-instance 'bash -s' < script.sh
