@@ -20,7 +20,7 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        chmod +x ~/.ssh/id_rsa
         echo "Host your-ec2-instance
               HostName ${{ github.event.inputs.ec2-public-ip }}
               User ubuntu
@@ -29,4 +29,5 @@ jobs:
 
     - name: SSH into EC2 and Run Script
       run: |
-        ssh your-ec2-instance 'bash -s' < script.sh
+        ssh -v your-ec2-instance 'bash -s' < script.sh
+
