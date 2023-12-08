@@ -16,20 +16,23 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@master
-      
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
       with:
-          host: ${{ inputs.ec2-public-ip }}
-          username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY }}
-          script: |
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PRIVATE_KEY }}
+        port: ${{ secrets.PORT }}
+
+        script: |
             sudo apt-get -y update
             sudo apt-get install -y apache2
             sudo systemctl start apache2
             sudo systemctl enable apache2
             # cd home
             # sudo mv * /var/www/html
+
+            
     - name: SSH into EC2 and Run Script
       run: |
         ssh -v your-ec2-instance 'bash -s' < script.sh
