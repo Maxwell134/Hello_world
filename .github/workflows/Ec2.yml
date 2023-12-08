@@ -29,5 +29,8 @@ jobs:
 
     - name: SSH into EC2
       run: |
+  
         # ssh -i ~/ ubuntu@${{ github.event.inputs.ec2-public-ip }}
-        ssh -i "{{ secrets.ACESS_KEY }}" ubuntu@ec2-204-236-201-139.compute-1.amazonaws.com
+        ssh -i "{{ secrets.ACCESS_KEY }}" ubuntu@ec2-204-236-201-139.compute-1.amazonaws.com
+
+        
