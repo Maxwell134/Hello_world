@@ -27,11 +27,27 @@ jobs:
         echo "${{ secrets.ACCESS_KEY }}" > ~/.ssh/id_rsa
         chmod 400 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
-
-
-    - name: SSH into EC2
+        
+    - name: check file 
       run: |
+
+        ls -l ~/.ssh
+        chmod 600 ~/.ssh/id_rsa
+        cat ~/.ssh/id_rsa
+        ssh-add -l
+        ssh-add ~/.ssh/id_rsa
+
+
+
+
+
+      
+       
+
+
+    # - name: SSH into EC2
+    #   run: |
   
-        ssh -i ~/.ssh/id_rsa ubuntu@${{ github.event.inputs.ec2-public-ip }}
+    #     ssh -i ~/.ssh/id_rsa ubuntu@${{ github.event.inputs.ec2-public-ip }}
 
         
