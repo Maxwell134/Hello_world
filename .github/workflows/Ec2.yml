@@ -25,7 +25,7 @@ jobs:
       
         mkdir -p ~/.ssh
         echo "${{ secrets.ACCESS_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        chmod 400 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
 
 
