@@ -1,0 +1,33 @@
+name: SSH into EC2 Instance
+
+on:
+  workflow_dispatch:
+    inputs:
+      ec2-public-ip:
+        description: 'EC2 Public IP'
+        required: true
+        type: string
+      private-key-path:
+        description: 'Path to private key'
+        required: true
+        type: string
+
+jobs:
+  ssh-into-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    # - name: Set up SSH
+    #   run: |
+    #     mkdir -p ~/.ssh
+    #     echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+    #     chmod 600 ~/.ssh/id_rsa
+    #     ssh-keyscan -H ${{ github.event.inputs.ec2-public-ip }} >> ~/.ssh/known_hosts
+
+    - name: SSH into EC2
+      run: |
+        # ssh -i ~/ ubuntu@${{ github.event.inputs.ec2-public-ip }}
+        ssh -i "{{ secrets.ACESS_KEY }}" ubuntu@ec2-204-236-201-139.compute-1.amazonaws.com
