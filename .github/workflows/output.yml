@@ -1,21 +1,32 @@
-name: Output Example
+name: Python Workflow with Output
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - main
 
 jobs:
-  job1:
+  generate_data:
     runs-on: ubuntu-latest
 
-    # outputs:
-    #   # Define an output named 'example-output'
-    #   id: example-output
-    #   value: ${{ steps.step1.outputs.example-output }}
+    outputs:
+      id: generated-data
+      value: ${{ steps.generate.outputs.generated-data }}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set example output
-        # id: step1
-        run: python3 main.py
+      - name: Generate Data
+        id: generate
+        run: |
+          python3 main.py
+          echo "::set-output name=generated-data::Data from Python Script"
+
+  display_data:
+    runs-on: ubuntu-latest
+    needs: generate_data
+
+    steps:
+      - name: Display Data
+        run: echo "Generated Data: ${{ needs.generate_data.outputs.generated-data }}"
