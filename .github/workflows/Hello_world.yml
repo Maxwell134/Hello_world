@@ -23,7 +23,7 @@ jobs:
         run: |
           docker build -t my-docker-image .
           docker images 
-          docker run -itd --rm -p 80:80 my-docker-image
-          curl localhost
+          docker run -itd --rm -p 8080:8080 my-docker-image
+          docker ps -a 
           sleep 5
           docker rmi $(docker images -qa)
