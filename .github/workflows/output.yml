@@ -1,9 +1,7 @@
 name: Output Example
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   job1:
@@ -15,8 +13,9 @@ jobs:
       value: ${{ steps.step1.outputs.example-output }}
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: Set example output
         id: step1
-        run: echo "::set-output name=example-output::Hello, World!"
-
-  
+        run: python main.py
