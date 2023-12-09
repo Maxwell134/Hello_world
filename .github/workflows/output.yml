@@ -7,15 +7,15 @@ jobs:
   job1:
     runs-on: ubuntu-latest
 
-    outputs:
-      # Define an output named 'example-output'
-      id: example-output
-      value: ${{ steps.step1.outputs.example-output }}
+    # outputs:
+    #   # Define an output named 'example-output'
+    #   id: example-output
+    #   value: ${{ steps.step1.outputs.example-output }}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Set example output
-        id: step1
-        run: python main.py
+        # id: step1
+        run: python3 main.py
