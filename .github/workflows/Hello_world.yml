@@ -1,0 +1,19 @@
+name: Use Hello World Action
+
+on: [push]
+
+jobs:
+  use_hello_world_action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Use Hello World Action
+        uses: .github/actions/docker-login@main
+        
+      - name: published
+        run: echo " published"
+
+        
