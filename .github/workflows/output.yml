@@ -1,0 +1,22 @@
+name: Output Example
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    outputs:
+      # Define an output named 'example-output'
+      id: example-output
+      value: ${{ steps.step1.outputs.example-output }}
+
+    steps:
+      - name: Set example output
+        id: step1
+        run: echo "::set-output name=example-output::Hello, World!"
+
+  
