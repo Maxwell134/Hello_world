@@ -1,19 +1,23 @@
-name: Use Hello World Action
+name: Use Basic Validation Action
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  use_hello_world_action:
+  use_basic_validation:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Use Hello World Action
+      - name: Run Basic Validation Workflow
         uses: actions/Docker_login_actions/.github/workflows/main.yml@main
+
+      # - name: Use Hello World Action
+      #   uses: actions/Docker_login_actions/.github/workflows/main.yml@main
         
       - name: published
-        run: echo " published"
-
-        
+        run: echo "published"
