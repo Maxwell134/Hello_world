@@ -1,10 +1,11 @@
 name: Use Docker Login Action
 
 on:
-  push:
-    branches:
-      - main
-
+  # push:
+  #   branches:
+  #     - main
+    workflow_dispatch
+    
 jobs:
   use_docker_login_action:
     runs-on: ubuntu-latest
