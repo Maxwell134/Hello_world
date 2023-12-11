@@ -1,0 +1,23 @@
+# .github/workflows/display-greeting.yml
+name: Display Greeting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  display-greeting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Test My Name Action
+        id: test-my-name
+        uses: Maxwell134/Docker_login_actions/test.yaml@main
+        with:
+          name: 'name'  # Replace with your desired name
+
+     
