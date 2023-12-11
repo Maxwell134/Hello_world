@@ -17,6 +17,6 @@ jobs:
       - name: Use Test Action
         uses: Maxwell134/test321@main
         with:
-            name: 'tommy'
+            name: 'tommy1'
         
        
