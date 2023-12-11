@@ -16,9 +16,9 @@ jobs:
 
       - name: Test My Name Action
         id: test-my-name
-        uses: Maxwell134/test321@main
+        uses: your-github-username/TestMyName_actions@main
         with:
           name: 'John'  # Replace with your desired name
 
-      # - name: Display Greeting
-      #   run: echo "The greeting is ${{ steps.test-my-name.outputs.greeting }}"
+      - name: Display Greeting
+        run: echo "The greeting is ${{ steps.test-my-name.outputs.greeting }}"
