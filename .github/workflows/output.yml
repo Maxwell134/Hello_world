@@ -19,8 +19,8 @@ jobs:
       - name: Generate Data
         id: generate
         run: |
-          python3 main.py
-          echo "::set-output name=generated-data::'Data from Python Script'"
+          python3 main.py > generated_data.txt
+          echo "::set-output name=generated-data::generated_data.txt"
 
   display_data:
     runs-on: ubuntu-latest
@@ -28,4 +28,6 @@ jobs:
 
     steps:
       - name: Display Data
-        run: echo "Generated Data:${{ needs.generate_data.outputs.generated-data }}"
+        run: |
+          generated_data=$(cat ${{ needs.generate_data.outputs.generated-data }})
+          echo "Generated Data: $generated_data"
