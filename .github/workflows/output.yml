@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      id: generated-data
-      value: ${{ steps.generate.outputs.generated-data }}
+      generated-data: ${{ steps.generate.outputs.generated-data }}
 
     steps:
       - name: Checkout Repository
@@ -21,7 +20,7 @@ jobs:
         id: generate
         run: |
           python3 main.py
-          echo "::set-output name=generated-data::Data from Python Script"
+          echo "::set-output name=generated-data::'Data from Python Script'"
 
   display_data:
     runs-on: ubuntu-latest
@@ -29,4 +28,4 @@ jobs:
 
     steps:
       - name: Display Data
-        run: echo "Generated Data:${{ needs.generate_data.outputs.generate }}"
+        run: echo "Generated Data:${{ needs.generate_data.outputs.generated-data }}"
