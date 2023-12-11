@@ -16,7 +16,7 @@ jobs:
 
       - name: Test My Name Action
         id: test-my-name
-        uses: Maxwell134/Docker_login_actions/tom.yml@main
+        uses: Maxwell134/Docker_login_actions@main
         with:
           name: 'names'  # Replace with your desired name
 
