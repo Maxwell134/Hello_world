@@ -18,6 +18,6 @@ jobs:
         id: test-my-name
         uses: Maxwell134/Docker_login_actions/test.yaml@main
         with:
-          name: 'name'  # Replace with your desired name
+          name: 'names'  # Replace with your desired name
 
      
