@@ -19,15 +19,20 @@ jobs:
       - name: Generate Data
         id: generate
         run: |
-          python3 main.py > generated_data.txt
-          echo "::set-output name=generated-data::generated_data.txt"
+          python3 main.py > $GITHUB_WORKSPACE/generated_data.txt
+          echo "::set-output name=generated-data::$GITHUB_WORKSPACE/generated_data.txt"
 
   display_data:
     runs-on: ubuntu-latest
     needs: generate_data
 
     steps:
+      - name: Debug
+        run: |
+          ls -R $GITHUB_WORKSPACE
+          cat $GITHUB_WORKSPACE/generated_data.txt
+
       - name: Display Data
         run: |
-          generated_data=$(cat ${{ needs.generate_data.outputs.generated-data }})
+          generated_data=$(cat $GITHUB_WORKSPACE/generated_data.txt)
           echo "Generated Data: $generated_data"
