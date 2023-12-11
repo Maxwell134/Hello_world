@@ -18,7 +18,4 @@ jobs:
         id: test-my-name
         uses: Maxwell134/test321@main
         with:
-          name: 'names'  # Replace with your desired name
-
-      # - name: Display Greeting
-      #   run: echo "The greeting is ${{ steps.test-my-name.outputs.greeting }}"
+          name: 'John'  # Replace with your desired name
