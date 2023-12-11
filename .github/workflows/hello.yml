@@ -20,5 +20,5 @@ jobs:
         with:
           name: 'John'  # Replace with your desired name
 
-      - name: Display Greeting
-        run: echo "The greeting is ${{ steps.test-my-name.outputs.greeting }}"
+      # - name: Display Greeting
+      #   run: echo "The greeting is ${{ steps.test-my-name.outputs.greeting }}"
