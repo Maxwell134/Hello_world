@@ -12,10 +12,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Test My Name Action
         id: test-my-name
         uses: Maxwell134/test321@main
         with:
           name: 'John'  # Replace with your desired name
+
+      - name: Display Greeting
+        run: echo "The greeting is ${{ steps.test-my-name.outputs.greeting }}"
