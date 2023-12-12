@@ -1,41 +1,21 @@
-# .github/workflows/main.yml
-name: Show Python Version
+name: Example Workflow
 
 on:
-  workflow_dispatch:
-    inputs:   
-      version:
-        description: 'Python version to build'
-        required: true
-      architecture:
-        description: 'The target architecture (x86, x64) of the Python'
-        required: false
-        default: 'x64'
+  push:
+    branches:
+      - main
+
 jobs:
-  show-python-version:
+   install:
+  
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: check python version
-        uses: actions/setup-python@main
-        with:
-          python-version: ${{ github.event.inputs.version }}
-          architecture: ${{ github.event.inputs.architecture }}
+      - name: Install Python 3.12
+        uses: ./.github/actions/install-python-3.12
 
-      - name: Validate version
-        run: |
-          python --version
-        shell: pwsh
-
-      - name: Run simple code
-        run: python -c 'import math; print(math.factorial(5))'
-
-      # - name: Install Python
-      #   uses: Maxwell134/Docker_login_actions@main
-      #   with:
-      #     python-version: ${{ github.event.inputs.python-version }}
-
-      # - name: Display Python version
-      #   run: python3 --version
+      - name: Show Python Version
+        run: python3.12 --version
