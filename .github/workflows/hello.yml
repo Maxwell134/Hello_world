@@ -1,5 +1,5 @@
 # .github/workflows/main.yml
-name: Use Custom Install Python Action
+name: Show Python Version
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  install-python-job:
+  show-python-version:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -17,7 +17,3 @@ jobs:
       uses: Maxwell134/Docker_login_actions@main
       with:
         python-version: '3.8'
-
-    - name: Verify Python Installation
-      run: |
-        python --version
