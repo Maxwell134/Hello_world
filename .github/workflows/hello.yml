@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use Simple Hello Action from RepoA
-        uses: .github/actions/sample_test/action.yml@main
+        uses: Maxwell134/Docker_login_actions@main
         with:
           myName: ${{ github.event.inputs.myName }}
