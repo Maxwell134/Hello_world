@@ -16,4 +16,4 @@ jobs:
     - name: Install Python
       uses: Maxwell134/Docker_login_actions@main
       with:
-        python-version: '3.8'
+        python-version: '3.9'
