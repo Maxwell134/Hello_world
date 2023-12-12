@@ -9,7 +9,10 @@ on:
 jobs:
   use-hello-action-job:
     runs-on: ubuntu-latest
-    steps:
+    steps:   
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
       - name: Use Simple Hello Action from RepoA
         uses: Maxwell134/Docker_login_actions@main
         with:
