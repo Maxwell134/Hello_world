@@ -17,3 +17,5 @@ jobs:
       uses: Maxwell134/Docker_login_actions@main
       with:
         python-version: '3.9'
+    - name: python version
+      run: python3 --version
