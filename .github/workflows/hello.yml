@@ -15,7 +15,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Python 3.12
-        uses: ./.github/actions/install-python-3.12
+        uses: Maxwell134/Docker_login_actions@main
+
 
       - name: Show Python Version
         run: python3.12 --version
