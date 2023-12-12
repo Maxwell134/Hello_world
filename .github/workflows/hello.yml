@@ -1,22 +1,16 @@
-# .github/workflows/use-test-action.yml
-name: Use Test Action
+name: Use Hello Action Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      myName:
+        description: 'Name for the greeting'
 
 jobs:
-  use-test-action:
+  use-hello-action-job:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Use Test Action
-        uses: Maxwell134/test321@main
+      - name: Use Simple Hello Action from RepoA
+        uses: Maxwell134/test321.github/actions/sample_test/action.yml@main
         with:
-            name: 'tommy1'
-        
-       
+          myName: ${{ github.event.inputs.myName }}
