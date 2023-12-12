@@ -1,19 +1,21 @@
 name: Use Hello Action Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      myName:
-        description: 'Name for the greeting'
+  push:
+    branches:
+      - main
 
 jobs:
   use-hello-action-job:
     runs-on: ubuntu-latest
-    steps:   
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      
-      - name: Use Simple Hello Action from RepoA
-        uses: Maxwell134/Docker_login_actions@main
+    steps:
+      - name: Checkout RepoB
+        uses: actions/checkout@v2
+
+      - name: Use Hello Action from RepoA
+        uses: actions/hello-world-docker-action@main
         with:
-          myName: ${{ github.event.inputs.myName }}
+          who-to-greet: ${{ secrets.NAME }}
+
+      - name: Print Time
+        run: echo "Time: ${{ steps.hello.outputs.time }}"
