@@ -11,6 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Use Simple Hello Action from RepoA
-        uses: Maxwell134/test321.github/actions/sample_test/action.yml@main
+        uses: Maxwell134/test321/.github/actions/sample_test/action.yml@main
         with:
           myName: ${{ github.event.inputs.myName }}
