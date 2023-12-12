@@ -1,9 +1,7 @@
 name: Use Hello Action Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   use-hello-action-job:
