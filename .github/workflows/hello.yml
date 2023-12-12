@@ -1,19 +1,23 @@
-name: Use Hello Action Workflow
+# .github/workflows/main.yml
+name: Use Custom Install Python Action
 
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - main
 
 jobs:
-  use-hello-action-job:
+  install-python-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout RepoB
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Use Hello Action from RepoA
-        uses: actions/hello-world-docker-action@main
-        with:
-          who-to-greet: ${{ secrets.NAME }}
+    - name: Install Python
+      uses: Maxwell134/Docker_login_actions@main
+      with:
+        python-version: '3.8'
 
-      - name: Print Time
-        run: echo "Time:${{ steps.hello.outputs.time }}"
+    - name: Verify Python Installation
+      run: |
+        python --version
