@@ -2,20 +2,23 @@
 name: Show Python Version
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      python-version:
+        description: 'Version of Python to install'
+        required: true
 
 jobs:
   show-python-version:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Install Python
-      uses: Maxwell134/Docker_login_actions@main
-      with:
-        python-version: '3.9'
-    - name: python version
-      run: python3 --version
+      - name: Install Python
+        uses: Maxwell134/Docker_login_actions@main
+        with:
+          python-version: ${{ github.event.inputs.python-version }}
+
+      - name: Display Python version
+        run: python3 --version
