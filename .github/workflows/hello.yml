@@ -18,4 +18,4 @@ jobs:
           who-to-greet: ${{ secrets.NAME }}
 
       - name: Print Time
-        run: echo "Time: ${{ steps.hello.outputs.time }}"
+        run: echo "Time:${{ steps.hello.outputs.time }}"
