@@ -2,12 +2,12 @@ name: Docker Login, Pull, and Run
 
 on:
 
-  # push:
-  #   branches:
-  #     - master
-  #     - main
+  push:
+    branches:
+      - master
+      - main
 
-  workflow_call:
+  # workflow_call:
   
 jobs:
   build:
