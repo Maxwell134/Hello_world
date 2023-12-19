@@ -2,7 +2,7 @@ name: Docker Login, Pull, and Run
 
 on:
 
-  push:
+  pull_request:
     branches:
       - master
       - main
