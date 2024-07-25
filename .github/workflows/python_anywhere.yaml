@@ -1,0 +1,38 @@
+name: Deploy to PythonAnywhere
+
+on:
+  workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Python and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip
+        pip3 install requests
+
+    - name: Deploy to PythonAnywhere
+      env:
+        PA_API_TOKEN: ${{ secrets.PYTHONANYWHERE_API_TOKEN }}
+        PA_USERNAME: Maxwell345
+      run: |
+        # Define the URL for the PythonAnywhere API
+        API_URL="https://www.pythonanywhere.com/api/v0/user/$PA_USERNAME/webapps/"
+
+        # Get a list of your web apps
+        echo "Fetching list of web apps..."
+        response=$(curl -s -H "Authorization: Token $PA_API_TOKEN" $API_URL)
+        echo $response | jq .
+
+        # Reload the specific web app
+        echo "Reloading the web app..."
+        WEB_APP_NAME="Maxwell345.pythonanywhere.com"
+        curl -X POST -H "Authorization: Token $PA_API_TOKEN" "${API_URL}${WEB_APP_NAME}/reload/"
+
+        echo "Deployment complete!"
