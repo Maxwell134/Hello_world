@@ -1,0 +1,36 @@
+name: CI/CD Pipeline for Nginx on K3s
+
+on:
+  workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install K3s
+      run: |
+        curl -sfL https://get.k3s.io | sh -
+
+    - name: Set up kubectl
+      run: |
+        mkdir -p $HOME/.kube
+        sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
+        sudo chown $USER:$USER $HOME/.kube/config
+        export KUBECONFIG=$HOME/.kube/config
+        kubectl get nodes
+
+    - name: Deploy Nginx to K3s
+      run: |
+        export KUBECONFIG=$HOME/.kube/config
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
+
+    - name: Verify Deployment
+      run: |
+        export KUBECONFIG=$HOME/.kube/config
+        kubectl rollout status deployment/nginx-deployment
+        kubectl get svc
