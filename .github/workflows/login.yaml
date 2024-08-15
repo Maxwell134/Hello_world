@@ -27,12 +27,15 @@ jobs:
       - name: Docker build
         if: ${{ env.build_status == 'proceed' }}
         run: |
-          docker ps -a 
+          docker build -t apache .
 
       - name: Docker Images
         if: ${{ env.build_status == 'proceed' }}
         run: |
-          docker images 
+          docker images
+          docker run -itd --name my_image -p 8080:80 apache
+          sleep 5
+          curl localhost:8080
 
         
         
