@@ -1,0 +1,37 @@
+name: 'Docker Install and Login'
+description: 'Custom GitHub Action to install Docker and log in to Docker Hub'
+author: 'Your Name'
+
+inputs:
+  docker_username:
+    description: 'Docker Hub username'
+    required: true
+  docker_password:
+    description: 'Docker Hub password or access token'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          ca-certificates \
+          curl \
+          gnupg \
+          lsb-release
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+          $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+    - name: Start Docker service
+      run: sudo systemctl start docker
+
+    - name: Log in to Docker Hub
+      run: |
+          docker login -u "${{ inputs.docker_username }}" --password-stdin
+          echo 'login successfully'
