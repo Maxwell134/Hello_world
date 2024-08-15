@@ -14,6 +14,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Docker
+      shell: bash  # Specify the shell
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -29,9 +30,10 @@ runs:
         sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
     - name: Start Docker service
+      shell: bash  # Specify the shell
       run: sudo systemctl start docker
 
     - name: Log in to Docker Hub
+      shell: bash  # Specify the shell
       run: |
-          docker login -u "${{ inputs.docker_username }}" --password-stdin
-          echo 'login successfully'
+        echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
