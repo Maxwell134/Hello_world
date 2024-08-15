@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+import os
 
 def load_pipeline_config(filename="pipeline.json"):
     with open(filename, "r") as f:
@@ -31,7 +32,7 @@ def main():
         if config["custom_image"]:
             image_name = config["custom_image"]
         else:
-            image_name = input("Enter the custom Docker image name: ")
+            image_name = os.getenv('image_name')
 
     docker_pull(image_name)
     docker_tag(image_name, "your-dockerhub-username/your-image-name:latest")
