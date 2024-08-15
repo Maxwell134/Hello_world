@@ -62,6 +62,7 @@ jobs:
 
       - name: List all files
         run: |
+          ls -lrth 
           ls -lrth | grep apache.tar.gz
 
 
