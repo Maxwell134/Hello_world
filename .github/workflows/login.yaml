@@ -25,7 +25,7 @@ jobs:
           echo "build_status=$build_status" >> $GITHUB_ENV
         shell: bash
 
-    - name: Display Build Status
+      - name: Display Build Status
         run: |
           echo "Build Status: ${{ env.build_status }}"
 
