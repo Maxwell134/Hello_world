@@ -17,8 +17,5 @@ jobs:
         docker_username: ${{ secrets.DOCKER_USERNAME }}
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build Docker image
-      run: docker build -t your-dockerhub-username/your-image-name:latest .
-
-    - name: Push Docker image
-      run: docker push your-dockerhub-username/your-image-name:latest
+    - name: Docker image
+      run: docker images
