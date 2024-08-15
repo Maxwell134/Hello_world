@@ -34,16 +34,15 @@ jobs:
           echo "Proceeding with Docker build..."
           docker build -t apache .
 
+      - name: Save Docker Image to File
+        run: |
+          docker save apache | gzip > apache.tar.gz
 
-      - name: Upload a Build Artifact
-        if: ${{ env.build_status == 'proceed' }}
-        uses: actions/upload-artifact@v4.3.6
+      - name: Upload Docker Image as Artifact
+        uses: actions/upload-artifact@v3
         with:
           name: docker-image
-          path: /Users/tridibbasumatary/Downloads/gha/apache.tar.gz
-          if-no-files-found: warn
-          compression-level: 6
-          overwrite: false
+          path: apache.tar.gz
 
       - name: Docker Images
         if: ${{ env.build_status == 'proceed' }}
