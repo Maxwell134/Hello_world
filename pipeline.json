@@ -1,5 +1,5 @@
+
 {
-  "use_default_image": true,
-  "default_image": "nginx",
-  "custom_image": ""
+  "use_default_image": true
+
 }
