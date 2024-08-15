@@ -1,31 +1,33 @@
-name: Build and Push Docker Image
+name: Checking Docker Login
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      image_name:
+        description: 'Docker image name'
+        required: true
+        default: 'nginx:latest'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Install Docker and Log in
-      uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
-      with:
-        docker_username: ${{ secrets.DOCKER_USERNAME }}
-        docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker
+        uses: ./.github/actions/docker-login@v1.0.0
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Run Docker Image Handler
-      run: python3 docker_image_handler.py
-      env: 
-        image_name: $"{{ image_name }}"
-        
-    
-    - name: Docker image
-      run: docker images
-    - name: CAT all  the folders
-      run: |
-        cat  /home/runner/.docker/config.json
-        rm -rf /home/runner/.docker/config.json
+      - name: Docker Pull Image
+        run: |
+          python3 docker_image_handler.py
+        env:
+          IMAGE_NAME: ${{ github.event.inputs.image_name }}
+
+      - name: List Docker Images
+        run: |
+          docker images
