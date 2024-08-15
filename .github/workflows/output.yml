@@ -1,9 +1,8 @@
 name: Python Workflow with Output
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
+  
 
 jobs:
   generate_data:
