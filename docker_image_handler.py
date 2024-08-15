@@ -1,41 +1,55 @@
 import json
-import subprocess
-import sys
 import os
+import subprocess
 
-def load_pipeline_config(filename="pipeline.json"):
-    with open(filename, "r") as f:
-        return json.load(f)
+file_path = 'pipeline.json'
 
-def docker_pull(image_name):
+
+def docker_pull(image_name, tag):
     try:
-        subprocess.run(["docker", "pull", image_name], check=True)
-        print(f"Successfully pulled image: {image_name}")
-    except subprocess.CalledProcessError:
-        print(f"Failed to pull image: {image_name}")
-        sys.exit(1)
+        if not image_name:
+            raise ValueError("Image name is required for docker pull.")
 
-def docker_tag(source_image, target_image):
-    try:
-        subprocess.run(["docker", "tag", source_image, target_image], check=True)
-        print(f"Successfully tagged image: {source_image} as {target_image}")
+        # Pull the Docker image
+        subprocess.run(["docker", "pull", f"{image_name}:{tag}"], check=True)
+        print(f'Docker image {image_name}:{tag} pulled successfully.')
+
     except subprocess.CalledProcessError:
-        print(f"Failed to tag image: {source_image}")
-        sys.exit(1)
+        print(f'Error: Failed to pull Docker image {image_name}:{tag}.')
+    except ValueError as e:
+        print(f'Error: {e}')
+    except Exception as e:
+        print(f'An unexpected error occurred: {e}')
+
 
 def main():
-    config = load_pipeline_config()
+    try:
+        with open(file_path, 'r') as file:
+            config = json.load(file)
 
-    if config["use_default_image"]:
-        image_name = config["default_image"]
-    else:
-        if config["custom_image"]:
-            image_name = config["custom_image"]
+        if config.get('use_default_image', False):
+            image_name = config.get('default_image', '')
         else:
-            image_name = os.getenv('image_name')
+            image_name = os.getenv('default_image')
 
-    docker_pull(image_name)
-    docker_tag(image_name, "your-dockerhub-username/your-image-name:latest")
+        tag = 'latest'  # or any other tag you want to use
+
+        # Ensure image_name is not empty
+        if not image_name:
+            raise ValueError("Image name is not set in pipeline.json or environment variables.")
+
+        # Call docker_pull function
+        docker_pull(image_name=image_name, tag=tag)
+
+    except FileNotFoundError:
+        print(f'Error: The file {file_path} does not exist.')
+    except json.JSONDecodeError:
+        print(f'Error: The file {file_path} is not a valid JSON file.')
+    except ValueError as e:
+        print(f'Error: {e}')
+    except Exception as e:
+        print(f'An unexpected error occurred: {e}')
+
 
 if __name__ == "__main__":
     main()
