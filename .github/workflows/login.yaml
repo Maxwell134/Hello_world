@@ -22,15 +22,14 @@ jobs:
         run: |
           build_status=$(python3 docker_image_handler.py)
           echo "Build Status: $build_status"
-          echo "build_status=$build_status" >> $GITHUB_ENV
-        shell: bash
+          
 
       - name: Display Build Status
         run: |
           echo "Build Status: ${{ env.build_status }}"
 
       - name: Docker build
-        if: ${{ env.build_status == 'proceed' }}
+        if: ${{ steps.outputs.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker build..."
           docker build -t apache .
@@ -38,7 +37,7 @@ jobs:
           build_status: ${{ env.build_status }}
 
       - name: Docker Images
-        if: ${{ env.build_status == 'proceed' }}
+        if: ${{ steps.outputs.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker run..."
           docker images
