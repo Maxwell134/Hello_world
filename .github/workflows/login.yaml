@@ -29,6 +29,8 @@ jobs:
         if: ${{ env.build_status == 'proceed' }}
         run: |
           docker build -t apache .
+        env:
+          build_status: ${{ env.build_status }}
 
       - name: Docker Images
         if: ${{ env.build_status == 'proceed' }}
@@ -37,6 +39,8 @@ jobs:
           docker run -itd --name my_image -p 8080:80 apache
           sleep 5
           curl localhost:8080
+        env:
+          build_status: ${{ env.build_status }}
 
         
         
