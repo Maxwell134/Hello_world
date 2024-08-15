@@ -1,28 +1,24 @@
-name: Checking docker login
+name: Build and Push Docker Image
 
 on:
-  [workflow_dispatch]
+  workflow_dispatch
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Login to docker
-        uses: ./.github/actions/docker.yaml@main
-        with:
-          docker_username: ${{ secrets.DOCKER_USERNAME }}
-          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Install Docker and Log in
+      uses: ./.github/actions/docker_login
+      with:
+        docker_username: ${{ secrets.DOCKER_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Build Docker image
+      run: docker build -t your-dockerhub-username/your-image-name:latest .
 
-      - name: Docker pull image
-        run: |
-          docker pull nginx:latest 
-
-      - name: Docker images
-        run: |
-            docker images 
-
+    - name: Push Docker image
+      run: docker push your-dockerhub-username/your-image-name:latest
