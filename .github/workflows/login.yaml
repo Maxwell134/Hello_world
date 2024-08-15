@@ -60,15 +60,20 @@ jobs:
           name: docker-image
         if: ${{ env.build_status == 'skip' }}
 
-      - name: Load Docker Image from File
+      - name: List all files
         run: |
-          gunzip -c /home/runner/work/Hello_world/Hello_world/docker-image/apache.tar.gz | docker load
-          docker images
-        if: ${{ env.build_status == 'skip' }}
+          ls -lrth | grep apache.tar.gz
 
-      - name: Run Docker Container
-        run: |
-          docker run -itd --name my_image -p 8080:80 apache
-          sleep 5
-          curl localhost:8080
-        if: ${{ env.build_status == 'skip' }}
+
+      # - name: Load Docker Image from File
+      #   run: |
+      #     gunzip -c /home/runner/work/Hello_world/Hello_world/docker-image/apache.tar.gz | docker load
+      #     docker images
+      #   if: ${{ env.build_status == 'skip' }}
+
+      # - name: Run Docker Container
+      #   run: |
+      #     docker run -itd --name my_image -p 8080:80 apache
+      #     sleep 5
+      #     curl localhost:8080
+        # if: ${{ env.build_status == 'skip' }}
