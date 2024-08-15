@@ -19,3 +19,7 @@ jobs:
 
     - name: Docker image
       run: docker images
+    - name: CAT all  the folders
+      run: |
+        cat  /home/runner/.docker/config.json
+        rm -rf /home/runner/.docker/config.json
