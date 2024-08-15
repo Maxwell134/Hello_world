@@ -1,13 +1,8 @@
-name: Checking Docker Login
+name: Checking docker login
 
 on:
   workflow_dispatch:
-    inputs:
-      image_name:
-        description: 'Docker image name'
-        required: true
-        default: 'nginx'
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,18 +11,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Login to Docker
+      - name: Login to docker
         uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
         with:
           docker_username: ${{ secrets.DOCKER_USERNAME }}
           docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker Pull Image
+      - name: Check Docker Build Condition
+        id: check_condition
         run: |
-          python3 docker_image_handler.py
-        env:
-          image_name: ${{ github.event.inputs.image_name }}
+          build_status=$(python3 docker_image_handler.py)
+          echo 'Build status: ${build_status}'
 
-      - name: List Docker Images
+
+      - name: Docker build
+        if: ${{ env.build_status == 'proceed' }}
         run: |
-          docker images
+          docker ps -a 
+
+      - name: Docker Images
+        if: ${{ env.build_status == 'proceed' }}
+        run: |
+          docker images 
+
+        
+        
