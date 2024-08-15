@@ -17,6 +17,10 @@ jobs:
         docker_username: ${{ secrets.DOCKER_USERNAME }}
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Run Docker Image Handler
+      run: |
+        python3 docker_image_handler.py
+    
     - name: Docker image
       run: docker images
     - name: CAT all  the folders
