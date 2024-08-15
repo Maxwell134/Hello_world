@@ -20,8 +20,7 @@ jobs:
       - name: Check Docker Build Condition
         id: check_condition
         run: |
-          result=$(python3 docker_image_handler.py)
-          echo "build_status=$result" >> $GITHUB_ENV
+          python3 docker_image_handler.py
         shell: bash
 
       - name: Display Build Status
