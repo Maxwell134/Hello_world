@@ -21,8 +21,9 @@ jobs:
         id: check_condition
         run: |
           build_status=$(python3 docker_image_handler.py)
-          echo 'Build status: ${build_status}'
-
+          echo "Build Status: $build_status"
+          echo "build_status=$build_status" >> $GITHUB_ENV
+        shell: bash
 
       - name: Docker build
         if: ${{ env.build_status == 'proceed' }}
