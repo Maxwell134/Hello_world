@@ -62,7 +62,7 @@ jobs:
 
       - name: Load Docker Image from File
         run: |
-          gunzip -c docker-image/apache.tar.gz | docker load
+          gunzip -c /home/runner/work/Hello_world/Hello_world/docker-image/apache.tar.gz | docker load
           docker images
         if: ${{ env.build_status == 'skip' }}
 
