@@ -26,12 +26,22 @@ jobs:
       - name: Display Build Status
         run: |
           echo "Build Status: ${{ env.build_status }}"
+          
 
       - name: Docker Build
         if: ${{ env.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker build..."
           docker build -t apache .
+
+
+      - name: Upload a Build Artifact
+        if: ${{ env.build_status == 'proceed' }}
+        uses: actions/upload-artifact@v4.3.6
+        with:
+          name: docker-image
+          path: |
+            $(docker save apache | gzip > apache.tar.gz)
 
       - name: Docker Images
         if: ${{ env.build_status == 'proceed' }}
