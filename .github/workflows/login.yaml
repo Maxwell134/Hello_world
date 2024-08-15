@@ -25,9 +25,14 @@ jobs:
           echo "build_status=$build_status" >> $GITHUB_ENV
         shell: bash
 
+    - name: Display Build Status
+        run: |
+          echo "Build Status: ${{ env.build_status }}"
+
       - name: Docker build
         if: ${{ env.build_status == 'proceed' }}
         run: |
+          echo "Proceeding with Docker build..."
           docker build -t apache .
         env:
           build_status: ${{ env.build_status }}
@@ -35,6 +40,7 @@ jobs:
       - name: Docker Images
         if: ${{ env.build_status == 'proceed' }}
         run: |
+          echo "Proceeding with Docker run..."
           docker images
           docker run -itd --name my_image -p 8080:80 apache
           sleep 5
