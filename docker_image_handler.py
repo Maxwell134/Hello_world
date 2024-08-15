@@ -28,10 +28,10 @@ def main():
     if config["use_default_image"]:
         image_name = config["default_image"]
     else:
-        if not config["custom_image"]:
-            print("Error: No custom image provided in pipeline.json.")
-            sys.exit(1)
-        image_name = config["custom_image"]
+        if config["custom_image"]:
+            image_name = config["custom_image"]
+        else:
+            image_name = input("Enter the custom Docker image name: ")
 
     docker_pull(image_name)
     docker_tag(image_name, "your-dockerhub-username/your-image-name:latest")
