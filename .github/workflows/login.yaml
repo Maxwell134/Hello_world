@@ -18,8 +18,10 @@ jobs:
         docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Run Docker Image Handler
-      run: |
-        python3 docker_image_handler.py
+      run: python3 docker_image_handler.py
+      env: 
+        image_name: $"{{ image_name }}"
+        
     
     - name: Docker image
       run: docker images
