@@ -1,0 +1,28 @@
+name: Checking docker login
+
+on:
+  [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Login to docker
+        uses: ./.github/actions/docker.yaml@main
+        with:
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+      - name: Docker pull image
+        run: |
+          docker pull nginx:latest 
+
+      - name: Docker images
+        run: |
+            docker images 
+
