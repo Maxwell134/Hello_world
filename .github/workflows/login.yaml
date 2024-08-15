@@ -1,8 +1,8 @@
-name: Checking docker login
+name: Checking Docker Login
 
 on:
   workflow_dispatch:
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Login to docker
+      - name: Login to Docker
         uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
         with:
           docker_username: ${{ secrets.DOCKER_USERNAME }}
@@ -19,33 +19,26 @@ jobs:
 
       - name: Check Docker Build Condition
         id: check_condition
-        run: |   
+        run: |
           result=$(python3 docker_image_handler.py)
-          # Set the output for this step
-          echo "::set-output name=build_status::$result"
+          echo "build_status=$result" >> $GITHUB_ENV
         shell: bash
-          
 
       - name: Display Build Status
         run: |
-          echo "Build Status: ${{ steps.check_condition.outputs.build_status }}"
+          echo "Build Status: ${{ env.build_status }}"
 
-      - name: Docker build  
+      - name: Docker Build
+        if: ${{ env.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker build..."
           docker build -t apache .
-        if: ${{ steps.check_condition.outputs.build_status == 'proceed' }} 
 
       - name: Docker Images
-        
+        if: ${{ env.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker run..."
           docker images
           docker run -itd --name my_image -p 8080:80 apache
           sleep 5
           curl localhost:8080
-        if: ${{ steps.check_condition.outputs.build_status == 'proceed' }}
-        
-
-        
-        
