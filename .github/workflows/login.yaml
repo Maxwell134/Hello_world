@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "Proceeding with Docker run..."
           docker images
-          docker run -itd --name my_image -p 8080:80 ${{ github.event.input.image_name }}:${{{ github.event.input.tags }}
+          docker run -itd --name my_image -p 8080:80 ${{ github.event.input.image_name }}:${{ github.event.input.tags }}
           sleep 5
           curl localhost:8080
 
