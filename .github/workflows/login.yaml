@@ -92,4 +92,4 @@ jobs:
               }
             });
             console.log(response);
-        if: ${{ env.build_status == 'skip' }}
+            if: ${{ env.build_status == 'skip' }}
