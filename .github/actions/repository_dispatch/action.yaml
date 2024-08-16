@@ -17,7 +17,6 @@ outputs:
 
 runs:
   using: 'composite'
-  shell: bash
   steps:
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -26,10 +25,13 @@ runs:
       
     - name: Install Python Dependencies
       run: pip install requests
+      shell: bash
     
     - name: Run Python Script
+      shell: bash
       run: |
         python3 dispatch.py
+        
       
 
 branding:
