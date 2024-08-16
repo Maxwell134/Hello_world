@@ -78,7 +78,7 @@ jobs:
       - name: Repository dispatch 
         uses: Maxwell134/Hello_world/.github/actions/repository_dispatch@main
         with:
-          repo: Maxwell134/K3s_set_up-in-aws
+          repo: Maxwell134/K3s_set_up-in-aws/.github/workflows/k3s_cluster.yml
           event_type: my-event
           token: ${{ secrets.ACCESS_TOKEN }}
           
