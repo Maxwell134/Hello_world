@@ -19,6 +19,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: pip install flask 
+        run: pip install Flask==3.0.3
 
       - name: Check Docker Build Condition
         id: check_condition
