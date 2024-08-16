@@ -1,0 +1,21 @@
+name: 'Create custom Repository dispatch'
+description: 'Dispatch a repository event to trigger workflows in another repository.'
+author: 'Tridib Bas'
+inputs:
+  repo:
+    description: 'The repository to dispatch the event to (format: owner/repo).'
+    required: true
+  event_type:
+    description: 'The type of event to trigger.'
+    required: true
+  token:
+    description: 'The type of event to trigger.'
+    required: true
+
+  outputs:
+    response:
+       description: 'The response from the dispatch event.'
+
+runs:
+  using: python3
+  main: dispatch.py
