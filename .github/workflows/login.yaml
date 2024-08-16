@@ -78,19 +78,10 @@ jobs:
         if: ${{ env.build_status == 'skip' }}
 
 
-      - name: Trigger k3s Setup Workflow
-        if: ${{ env.build_status == 'proceed' }}
-        uses: actions/github-script@v6
+      - name: Repository dispatch 
+        uses: Maxwell134/Hello_world/.github/actions/repository_dispatch@main
         with:
-          script: |
-            const response = await github.request('POST /repos/{owner}/{repo}/dispatches', {
-              owner: 'Maxwell135', // Update with your GitHub username
-              repo: 'K3s_set_up-in-aws',
-              event_type: 'trigger_k3s_setup',
-              client_payload: {
-                image_name: '${{ github.event.inputs.image_name }}',
-                tags: '${{ github.event.inputs.tags }}'
-              }
-            });
-            console.log(response);
-            if: ${{ env.build_status == 'skip' }}
+          repo: Maxwell134/K3s_set_up-in-aws
+          event_type: my-event
+          token: ${{ secrets.ACCESS_TOKEN }}
+          
