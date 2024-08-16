@@ -1,4 +1,4 @@
-name: 'Create custom Repository dispatch'
+name: 'Create custom Repository Dispatch'
 description: 'Dispatch a repository event to trigger workflows in another repository.'
 author: 'Tridib Bas'
 inputs:
@@ -9,13 +9,28 @@ inputs:
     description: 'The type of event to trigger.'
     required: true
   token:
-    description: 'The type of event to trigger.'
+    description: 'GitHub token with repository permissions.'
     required: true
-
-  outputs:
-    response:
-       description: 'The response from the dispatch event.'
+outputs:
+  response:
+    description: 'The response from the dispatch event.'
 
 runs:
-  using: python3
-  main: dispatch.py
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+      
+    - name: Install Python Dependencies
+      run: pip install requests
+    
+    - name: Run Python Script
+      run: |
+        python3 dispatch.py
+      shell: bash
+
+branding:
+  icon: 'zap'
+  color: 'yellow'
