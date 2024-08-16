@@ -19,63 +19,60 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: pip install flask 
-        run: pip install Flask==3.0.3
+      # - name: Check Docker Build Condition
+      #   id: check_condition
+      #   run: |
+      #     python3 docker_image_handler.py
+      #   shell: bash
 
-      - name: Check Docker Build Condition
-        id: check_condition
-        run: |
-          python3 docker_image_handler.py
-        shell: bash
-
-      - name: Display Build Status
-        run: |
-          echo "Build Status: ${{ env.build_status }}"
+      # - name: Display Build Status
+      #   run: |
+      #     echo "Build Status: ${{ env.build_status }}"
           
 
-      - name: Docker Build
-        if: ${{ env.build_status == 'proceed' }}
-        run: |
-          echo "Proceeding with Docker build..."
-          docker build -t ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }} .
+      # - name: Docker Build
+      #   if: ${{ env.build_status == 'proceed' }}
+      #   run: |
+      #     echo "Proceeding with Docker build..."
+      #     docker build -t ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }} .
         
 
-      - name: Login to Docker
-        uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
-        with:
-          docker_username: ${{ secrets.DOCKER_USERNAME }}
-          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Login to Docker
+      #   uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
+      #   with:
+      #     docker_username: ${{ secrets.DOCKER_USERNAME }}
+      #     docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
 
-      - name: Pushed images
-        run: |
-          docker push ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }}
+      # - name: Pushed images
+      #   run: |
+      #     docker push ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }}
 
 
-      - name: Docker Images
-        if: ${{ env.build_status == 'proceed' }}
-        run: |
-          echo "Proceeding with Docker run..."
-          docker images
-          docker run -itd --name my_image -p 8080:80 ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }}
-          sleep 5
-          echo 'curl the website'
-          curl localhost:8080
+      # - name: Docker Images
+      #   if: ${{ env.build_status == 'proceed' }}
+      #   run: |
+      #     echo "Proceeding with Docker run..."
+      #     docker images
+      #     docker run -itd --name my_image -p 8080:80 ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }}
+      #     sleep 5
+      #     echo 'curl the website'
+      #     curl localhost:8080
 
 
-      - name: Download Docker Image Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: docker-image
-        if: ${{ env.build_status == 'skip' }}
+      # - name: Download Docker Image Artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: docker-image
+      #   if: ${{ env.build_status == 'skip' }}
 
 
-      - name: Run Docker Container
-        run: |
-          docker run -itd --name my_image -p 8080:80 apache
-          sleep 5
-          curl localhost:8080
-        if: ${{ env.build_status == 'skip' }}
+      # - name: Run Docker Container
+      #   run: |
+      #     docker run -itd --name my_image -p 8080:80 apache
+      #     sleep 5
+      #     curl localhost:8080
+      #   if: ${{ env.build_status == 'skip' }}
 
 
       - name: Repository dispatch 
