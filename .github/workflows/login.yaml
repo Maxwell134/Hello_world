@@ -2,6 +2,15 @@ name: Checking Docker Login
 
 on:
   workflow_dispatch:
+    inputs:
+      image_name:
+          description: 'Docker image'
+          required: true
+          default: '7002370412/tumlog'
+      tags:
+        description: 'Name of the tag'
+        required: true
+        default: 'v1.0.1'
 
 jobs:
   build:
@@ -11,11 +20,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Login to Docker
-        uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
-        with:
-          docker_username: ${{ secrets.DOCKER_USERNAME }}
-          docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Check Docker Build Condition
         id: check_condition
@@ -32,24 +36,27 @@ jobs:
         if: ${{ env.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker build..."
-          docker build -t apache .
+          docker build -t ${{ github.event.input.image_name }}:${{{ github.event.input.tags }} .
+        
 
-      - name: Save Docker Image to File
-        run: |
-          docker save apache | gzip > apache.tar.gz
-
-      - name: Upload Docker Image as Artifact
-        uses: actions/upload-artifact@v3
+      - name: Login to Docker
+        uses: Maxwell134/Hello_world/.github/actions/docker-login@v1.0.0
         with:
-          name: docker-image
-          path: apache.tar.gz
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+      - name: Pushed images
+        run: |
+          docker push ${{ github.event.input.image_name }}:${{{ github.event.input.tags }}
+
 
       - name: Docker Images
         if: ${{ env.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker run..."
           docker images
-          docker run -itd --name my_image -p 8080:80 apache
+          docker run -itd --name my_image -p 8080:80 ${{ github.event.input.image_name }}:${{{ github.event.input.tags }}
           sleep 5
           curl localhost:8080
 
@@ -60,18 +67,7 @@ jobs:
           name: docker-image
         if: ${{ env.build_status == 'skip' }}
 
-      - name: List all files
-        run: |
-          ls -lrth 
-          ls -lrth | grep apache.tar.gz
 
-
-      - name: Load Docker Image from File
-        run: |
-          gunzip -c apache.tar.gz | docker load
-          docker images
-        if: ${{ env.build_status == 'skip' }}
-        
       - name: Run Docker Container
         run: |
           docker run -itd --name my_image -p 8080:80 apache
