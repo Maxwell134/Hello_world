@@ -75,4 +75,21 @@ jobs:
           docker run -itd --name my_image -p 8080:80 apache
           sleep 5
           curl localhost:8080
+
+
+      - name: Trigger k3s Setup Workflow
+        if: ${{ env.build_status == 'proceed' }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.request('POST /repos/{owner}/{repo}/dispatches', {
+              owner: 'Maxwell135', // Update with your GitHub username
+              repo: 'K3s_set_up-in-aws',
+              event_type: 'trigger_k3s_setup',
+              client_payload: {
+                image_name: '${{ github.event.inputs.image_name }}',
+                tags: '${{ github.event.inputs.tags }}'
+              }
+            });
+            console.log(response);
         if: ${{ env.build_status == 'skip' }}
