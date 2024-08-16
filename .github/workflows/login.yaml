@@ -59,6 +59,7 @@ jobs:
           docker images
           docker run -itd --name my_image -p 8080:80 ${{ github.event.inputs.image_name }}:${{ github.event.inputs.tags }}
           sleep 5
+          echo 'curl the website'
           curl localhost:8080
 
 
