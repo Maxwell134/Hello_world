@@ -75,6 +75,7 @@ jobs:
           docker run -itd --name my_image -p 8080:80 apache
           sleep 5
           curl localhost:8080
+        if: ${{ env.build_status == 'skip' }}
 
 
       - name: Trigger k3s Setup Workflow
