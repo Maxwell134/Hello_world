@@ -88,4 +88,4 @@ jobs:
           token: ${{ secrets.ACCESS_TOKEN }} # Use your PAT stored in secrets
           repository: Maxwell134/K3s_set_up-in-aws
           event-type: my-event
-          client-payload: ''
+          client-payload: '{}'
