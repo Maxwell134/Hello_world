@@ -36,7 +36,7 @@ jobs:
         if: ${{ env.build_status == 'proceed' }}
         run: |
           echo "Proceeding with Docker build..."
-          docker build -t ${{ github.event.input.image_name }}:${{{ github.event.input.tags }} .
+          docker build -t ${{ github.event.input.image_name }}:${{ github.event.input.tags }} .
         
 
       - name: Login to Docker
@@ -48,7 +48,7 @@ jobs:
 
       - name: Pushed images
         run: |
-          docker push ${{ github.event.input.image_name }}:${{{ github.event.input.tags }}
+          docker push ${{ github.event.input.image_name }}:${{ github.event.input.tags }}
 
 
       - name: Docker Images
