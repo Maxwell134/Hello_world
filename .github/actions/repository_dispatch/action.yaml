@@ -2,9 +2,9 @@ name: 'Create Custom Repository Dispatch'
 description: 'Dispatch a repository event to trigger workflows in another repository.'
 author: 'Tridib Bas'
 inputs:
-  # repo_name:
-  #   description: 'The repository to dispatch the event to (format: owner/repo).'
-  #   required: true
+  repo_name:
+    description: 'The repository to dispatch the event to (format: owner/repo).'
+    required: false
   event_type:
     description: 'The type of event to trigger.'
     required: true
