@@ -3,11 +3,11 @@ import json
 import requests
 
 def run():
-    repo_name = 'Maxwell134/K3s_set_up-in-aws'
-    event_type = os.getenv('event_type')
-    token = os.getenv('token')
+    repo_name = os.getenv('INPUT_REPO_NAME')  # GitHub Actions input parameter
+    event_type = os.getenv('INPUT_EVENT_TYPE')  # GitHub Actions input parameter
+    token = os.getenv('INPUT_TOKEN')  # GitHub Actions input parameter
 
-    if not event_type or not token:
+    if not repo_name or not event_type or not token:
         raise ValueError("One or more required environment variables are not set.")
 
     print(f"Repo Name: {repo_name}")
