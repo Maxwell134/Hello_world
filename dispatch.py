@@ -3,7 +3,7 @@ import json
 import requests
 
 def run():
-    repo_name = os.getenv('INPUT_REPO_NAME')
+    repo_name = 'Maxwell134/K3s_set_up-in-aws'
     event_type = os.getenv('INPUT_EVENT_TYPE')
     token = os.getenv('INPUT_TOKEN')
 
