@@ -75,17 +75,11 @@ jobs:
       #   if: ${{ env.build_status == 'skip' }}
 
 
-      # - name: Repository dispatch 
-      #   uses: Maxwell134/Hello_world/.github/actions/repository_dispatch@main
-      #   with:
-      #     repo: Maxwell134/K3s_set_up-in-aws/.github/workflows/k3s_cluster.yml
-      #     event_type: my-event
-      #     token: ${{ secrets.ACCESS_TOKEN }}
-
-      - name: Dispatch Event to Another Repository
-        uses: peter-evans/repository-dispatch@v1
+      - name: Repository dispatch 
+        uses: Maxwell134/Hello_world/.github/actions/repository_dispatch@main
         with:
-          token: ${{ secrets.ACCESS_TOKEN }} # Use your PAT stored in secrets
-          repository: Maxwell134/az_login
-          event-type: my-event
-          client-payload: '{}'
+          repo: Maxwell134/K3s_set_up-in-aws
+          event_type: on-demand-test
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      
