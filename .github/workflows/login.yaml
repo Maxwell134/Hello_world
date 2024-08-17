@@ -78,7 +78,6 @@ jobs:
       - name: Repository dispatch 
         uses: Maxwell134/Hello_world/.github/actions/repository_dispatch@main
         with:
-          repo_name: "Maxwell134/K3s_set_up-in-aws"
           event_type: "on-demand-test"
           token: ${{ secrets.ACCESS_TOKEN }}
 
