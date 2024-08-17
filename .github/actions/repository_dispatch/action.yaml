@@ -27,6 +27,7 @@ runs:
     
     - name: Run Python Script
       run: python3 dispatch.py
+      shell: bash 
       env:
         INPUT_REPO_NAME: ${{ inputs.repo_name }}
         INPUT_EVENT_TYPE: ${{ inputs.event_type }}
