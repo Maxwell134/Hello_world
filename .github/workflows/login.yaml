@@ -80,6 +80,6 @@ jobs:
         with:
           # repo_name: "Maxwell134/K3s_set_up-in-aws"
           event_type: "on-demand-test"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       
