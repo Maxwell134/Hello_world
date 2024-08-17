@@ -86,6 +86,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.ACCESS_TOKEN }} # Use your PAT stored in secrets
-          repository: Maxwell134/K3s_set_up-in-aws
+          repository: Maxwell134/az_login
           event-type: my-event
           client-payload: '{}'
