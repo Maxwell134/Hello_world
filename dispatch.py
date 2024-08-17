@@ -7,8 +7,12 @@ def run():
     event_type = os.getenv('INPUT_EVENT_TYPE')
     token = os.getenv('INPUT_TOKEN')
 
-    if not repo_name or not event_type or not token:
+    if not event_type or not token:
         raise ValueError("One or more required environment variables are not set.")
+
+    print(f"Repo Name: {repo_name}")
+    print(f"Event Type: {event_type}")
+    print(f"Token: {token[:5]}...")  # Partially masked token for debugging
 
     url = f'https://api.github.com/repos/{repo_name}/dispatches'
     headers = {
