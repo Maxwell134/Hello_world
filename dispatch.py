@@ -4,7 +4,7 @@ import os
 
 def run():
 
-    repo_name = os.getenv('repo')
+    repo_name = os.getenv('repo_name')
     event_type = os.getenv('event_type')
     token = os.getenv('token')
 
