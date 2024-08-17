@@ -4,12 +4,11 @@ import os
 
 def run():
 
-    repo = os.getenv('repo')
+    repo_name = os.getenv('repo')
     event_type = os.getenv('event_type')
     token = os.getenv('token')
 
-    owner, repo_name = repo.split('/')
-    url = f'https://api.github.com/repos/{owner}/{repo_name}/dispatches'
+    url = f'https://api.github.com/repos/{repo_name}/dispatches'
 
     headers = {
 
@@ -27,10 +26,11 @@ def run():
     response = requests.post(url, headers=headers, data=json.dumps(data))
 
     if response.status_code == 204:
-        print(f"Dispatched event {event_type} to {repo}")
+        print(f"Dispatched event {event_type} to {repo_name}")
     else:
         print(f"Failed to dispatch event: {response.status_code} - {response.text}")
         response.raise_for_status()
 
 if __name__ == '__main__':
     run()
+
