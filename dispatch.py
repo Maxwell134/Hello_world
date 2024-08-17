@@ -4,8 +4,8 @@ import requests
 
 def run():
     repo_name = 'Maxwell134/K3s_set_up-in-aws'
-    event_type = os.getenv('INPUT_EVENT_TYPE')
-    token = os.getenv('INPUT_TOKEN')
+    event_type = os.getenv('event_type')
+    token = os.getenv('token')
 
     if not event_type or not token:
         raise ValueError("One or more required environment variables are not set.")
