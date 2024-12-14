@@ -5,13 +5,13 @@ on:
 
 jobs:
   dispatch:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Send Repository Dispatch Event
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
-            https://api.github.com/repos/Maxwell134/K3s_set_up-in-aws/dispatches \
-            -d '{"event_type": "custom-event"}'
+        run: echo "Hello world"
+          # curl -X POST \
+          #   -H "Accept: application/vnd.github.v3+json" \
+          #   -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
+          #   https://api.github.com/repos/Maxwell134/K3s_set_up-in-aws/dispatches \
+          #   -d '{"event_type": "custom-event"}'
