@@ -18,7 +18,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Python Script
-        run: python3 dock.py
+        run: |
+          pip install requests 
+          python3 dock.py
         env:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
