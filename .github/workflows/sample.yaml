@@ -12,17 +12,24 @@ jobs:
       - name: Checkout repo 
         uses: actions/checkout@v3
         
-      - name: Install requirements 
-        run: |
-          # apt update -y  && \
-          # apt install -y python3-pip && \
-          pip install flask 
+      # - name: Install requirements 
+      #   run: |
+      #     # apt update -y  && \
+      #     # apt install -y python3-pip && \
+      #     pip install flask 
         
       - name: Send Repository Dispatch Event
         run: echo "Hello world"
 
-      - name: python same 
-        run: python3 main.py
+      - name: python sample
+        run:  |
+          python3 -m venv venv  # Create a virtual environment named 'venv'
+          source venv/bin/activate  # Activate the virtual environment
+          pip install --upgrade pip  # Upgrade pip in the virtual environment
+          pip install flask  # Install dependencies inside the virtual environment
+          python main.py  # Run the Python script
+        
+          
           # curl -X POST \
           #   -H "Accept: application/vnd.github.v3+json" \
           #   -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
