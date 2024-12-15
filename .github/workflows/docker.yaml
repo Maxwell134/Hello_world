@@ -36,7 +36,7 @@ jobs:
         run: docker images
 
       - name: Docker Run Container
-        run: docker run --name my_life -itd -p 80:80 image
+        run: docker run --name my_life -itd -p 8080:80 image
 
       - name: Docker Containers
         run: docker ps -a
