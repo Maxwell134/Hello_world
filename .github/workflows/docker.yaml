@@ -28,6 +28,16 @@ jobs:
       # - name: delete docker images 
       #   run: docker rmi $(docker images -qa)
 
+      - name: create env 
+        run: |
+          volumeMounts:
+            - name: docker-socket
+              mountPath: /var/run/docker.sock
+          volumes:
+            - name: docker-socket
+              hostPath:
+                path: /var/run/docker.sock
+       
       - name: Docker Build
         run: docker build -t image .
 
