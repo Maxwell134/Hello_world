@@ -9,14 +9,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Fix permissions
-        run: |
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+      # - name: Fix permissions
+      #   run: |
+      #     sudo chown -R $USER:$USER $GITHUB_WORKSPACE
 
       - name: Install Python and create virtual environment
         run: |
-          sudo apt update -y && \
-          sudo apt install -y python3 python3-venv && \
+          # sudo apt update -y && \
+          # sudo apt install -y python3 python3-venv && \
           python3 -m venv venv && \
           source venv/bin/activate && \
           pip install --upgrade pip && \
