@@ -8,6 +8,16 @@ jobs:
     runs-on: self-hosted
 
     steps:
+
+      - name: Checkout repo 
+        uses: actions/checkout@v3
+        
+      - name: Install requirements 
+        run: |
+          apt update -y  && \
+          apt install -y python3-pip && \
+          pip install flask 
+        
       - name: Send Repository Dispatch Event
         run: echo "Hello world"
 
