@@ -25,8 +25,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: delete docker images 
-        run: docker rmi $(docker images -qa)
+      # - name: delete docker images 
+      #   run: docker rmi $(docker images -qa)
 
       - name: Docker Build
         run: docker build -t image .
