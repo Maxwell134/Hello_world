@@ -40,3 +40,5 @@ jobs:
 
       - name: Docker Containers
         run: docker ps -a
+      - name: helm version 
+        run: helm version 
