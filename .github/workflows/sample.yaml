@@ -1,25 +1,28 @@
-name: Cleanup Old Workflow Runs
+name: Run Python Script with Permissions Fixed
 
 on:
- workflow_dispatch  # Runs on the 1st of every month
-
+ workflow_dispatch
 jobs:
-  cleanup:
+  run-python:
     runs-on: self-hosted
     steps:
-      - name: Run Cleanup Script
-        env:
-          REPO: ${{ github.repository }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fix permissions
         run: |
-          THRESHOLD_DATE=$(date -d "-4 months" +%Y-%m-%dT%H:%M:%SZ)
-          echo "Deleting workflow runs older than $THRESHOLD_DATE from $REPO"
-          
-          WORKFLOW_RUNS=$(curl -s -H "Authorization: token $TOKEN" \
-            "https://api.github.com/repos/$REPO/actions/runs?per_page=100" | jq -c ".workflow_runs[] | select(.created_at < \"${THRESHOLD_DATE}\") | .id")
-          
-          for RUN_ID in $WORKFLOW_RUNS; do
-            echo "Deleting workflow run with ID: $RUN_ID"
-            curl -s -X DELETE -H "Authorization: token $TOKEN" \
-              "https://api.github.com/repos/$REPO/actions/runs/$RUN_ID"
-          done
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+
+      - name: Install Python and create virtual environment
+        run: |
+          sudo apt update -y && \
+          sudo apt install -y python3 python3-venv && \
+          python3 -m venv venv && \
+          source venv/bin/activate && \
+          pip install --upgrade pip && \
+          pip install flask
+
+      - name: Run Python Script
+        run: |
+          source venv/bin/activate && \
+          python main.py
