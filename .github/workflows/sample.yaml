@@ -1,64 +1,25 @@
 name: Cleanup Old Workflow Runs
 
 on:
-  workflow_dispatch
+ workflow_dispatch  # Runs on the 1st of every month
 
 jobs:
   cleanup:
     runs-on: self-hosted
     steps:
-      - name: Delete Old Workflow Runs
+      - name: Run Cleanup Script
+        env:
+          REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Cleaning up old runs..."
-          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs" | jq '.workflow_runs'
-
-
-
-
-
-
-
-
-
-
-# name: Dispatch Event
-
-# on:
-#   workflow_dispatch:
-
-# jobs:
-#   dispatch:
-#     runs-on: self-hosted
-
-#     steps:
-
-#       - name: Checkout repo 
-#         uses: actions/checkout@v3
-        
-#       # - name: Install requirements 
-#       #   run: |
-#       #     # apt update -y  && \
-#       #     # apt install -y python3-pip && \
-#       #     pip install flask 
-        
-#       - name: Send Repository Dispatch Event
-#         run: echo "Hello world"
-
-#       - name: python sample
-#         run:  |
-#           ls -l 
-#           whoami
-
-#           # python3 -m venv venv  # Create a virtual environment named 'venv'
-#           # source venv/bin/activate  # Activate the virtual environment
-#           # pip install --upgrade pip  # Upgrade pip in the virtual environment
-#           # pip install flask  # Install dependencies inside the virtual environment
-#           # python main.py  # Run the Python script
-        
+          THRESHOLD_DATE=$(date -d "-4 months" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Deleting workflow runs older than $THRESHOLD_DATE from $REPO"
           
-#           # curl -X POST \
-#           #   -H "Accept: application/vnd.github.v3+json" \
-#           #   -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
-#           #   https://api.github.com/repos/Maxwell134/K3s_set_up-in-aws/dispatches \
-#           #   -d '{"event_type": "custom-event"}'
+          WORKFLOW_RUNS=$(curl -s -H "Authorization: token $TOKEN" \
+            "https://api.github.com/repos/$REPO/actions/runs?per_page=100" | jq -c ".workflow_runs[] | select(.created_at < \"${THRESHOLD_DATE}\") | .id")
+          
+          for RUN_ID in $WORKFLOW_RUNS; do
+            echo "Deleting workflow run with ID: $RUN_ID"
+            curl -s -X DELETE -H "Authorization: token $TOKEN" \
+              "https://api.github.com/repos/$REPO/actions/runs/$RUN_ID"
+          done
