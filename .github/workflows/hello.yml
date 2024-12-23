@@ -22,7 +22,7 @@ jobs:
       - name: Check the Azure Account
         run: |
           echo "Checking the Azure account..."
-          az account --list -o table
+          az account list -o table
 
       - name: az logout
         run: |
