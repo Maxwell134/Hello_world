@@ -14,34 +14,10 @@ jobs:
       - name: Check Docker version
         run: |
           echo "Checking Docker version..."
-          docker --version || echo "Docker is not installed."
+          docker --version || echo "Docker is not installed." 
 
-      - name: Install Sudo (if not already installed)
-        run: |
-          echo "Installing sudo..."
-          if ! command -v sudo &> /dev/null; then
-            apt-get update && apt-get install -y sudo
-          fi
-
-      - name: Install Docker (if not already installed)
-        run: |
-          echo "Installing Docker..."
-          if ! command -v docker &> /dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-          fi
-
-      - name: Add User to Docker Group
-        run: |
-          echo "Adding current user to Docker group..."
-          sudo groupadd docker || echo "Docker group already exists."
-          sudo usermod -aG docker $USER
-          echo "You may need to log out and log back in for the changes to take effect."
-
-      - name: Restart Docker Service
-        run: |
-          echo "Restarting Docker service..."
-          sudo systemctl restart docker
+      - name: Docker images
+        run: docker images 
 
       - name: Run Azure CLI
         uses: ./.github/actions/azure_login 
