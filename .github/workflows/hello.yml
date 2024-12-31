@@ -16,8 +16,8 @@ jobs:
           echo "Checking Docker version..."
           docker --version || echo "Docker is not installed." 
 
-      - name: Docker images
-        run: docker images 
+      # - name: Docker images
+      #   run: docker images 
 
       - name: Run Azure CLI
         uses: ./.github/actions/azure_login 
