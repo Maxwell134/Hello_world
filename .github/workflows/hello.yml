@@ -4,31 +4,58 @@ on:
   workflow_dispatch
 
 jobs:
-   install:
-  
+  install:
     runs-on: self-hosted
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: docker version
-      #   run: 
+      - name: Check Docker version
+        run: |
+          echo "Checking Docker version..."
+          docker --version || echo "Docker is not installed."
 
-      - name: Run azure cli 
+      - name: Install Sudo (if not already installed)
+        run: |
+          echo "Installing sudo..."
+          if ! command -v sudo &> /dev/null; then
+            apt-get update && apt-get install -y sudo
+          fi
+
+      - name: Install Docker (if not already installed)
+        run: |
+          echo "Installing Docker..."
+          if ! command -v docker &> /dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+          fi
+
+      - name: Add User to Docker Group
+        run: |
+          echo "Adding current user to Docker group..."
+          sudo groupadd docker || echo "Docker group already exists."
+          sudo usermod -aG docker $USER
+          echo "You may need to log out and log back in for the changes to take effect."
+
+      - name: Restart Docker Service
+        run: |
+          echo "Restarting Docker service..."
+          sudo systemctl restart docker
+
+      - name: Run Azure CLI
         uses: ./.github/actions/azure_login 
         with:
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
           azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          
+
       - name: Check the Azure Account
         run: |
           echo "Checking the Azure account..."
           az account list -o table
 
-      - name: az logout
+      - name: Azure Logout
         run: |
+          echo "Logging out of Azure..."
           az logout
-    
-
