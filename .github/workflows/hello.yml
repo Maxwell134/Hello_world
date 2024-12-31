@@ -12,8 +12,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: docker version
-        run: docker --version
+      # - name: docker version
+      #   run: 
 
       - name: Run azure cli 
         uses: ./.github/actions/azure_login 
