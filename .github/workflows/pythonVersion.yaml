@@ -1,7 +1,7 @@
 name: "docker login"
 
 on:
-  workflow_call
+  workflow_dispatch
 
 jobs:
   docker-login:
