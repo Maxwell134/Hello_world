@@ -8,4 +8,5 @@ updates:
       labels:
         - "dependencies"
       reviewers:
-        - ["dependabot", "Maxwell134"]
+        - "dependabot"
+        - "Maxwell134"
