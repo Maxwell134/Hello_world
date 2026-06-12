@@ -2,29 +2,32 @@ name: Simple Workflow with Input and Output
 
 on:
   workflow_dispatch:
+    inputs:
+      greeting:
+        description: 'Greeting message'
+        required: true
+        type: string
+
+      who-to-greet:
+        description: 'Name to greet'
+        required: true
+        type: string
+
 jobs:
   simple_job:
     runs-on: ubuntu-latest
 
-    inputs:
-      parameters:
-        - name: greeting
-          description: 'Greeting message'
-          required: true
-        - name: who-to-greet
-          description: 'Name to greet'
-          required: true
-
     outputs:
-      id: greeting-output
-      value:
-        greeting: ${{ needs.simple_job.outputs.greeting }}
-        who: ${{ needs.simple_job.outputs.who }}
+      greeting: ${{ steps.set-greeting.outputs.greeting }}
+      who: ${{ steps.set-greeting.outputs.who }}
 
     steps:
       - name: Set Greeting and Who
         id: set-greeting
-        run: echo "::set-output name=greeting::${{ inputs.greeting }}::set-output name=who::${{ inputs.who-to-greet }}"
+        run: |
+          echo "greeting=${{ inputs.greeting }}" >> $GITHUB_OUTPUT
+          echo "who=${{ inputs['who-to-greet'] }}" >> $GITHUB_OUTPUT
 
       - name: Show Greeting
-        run: echo "Greeting: ${{ needs.simple_job.outputs.greeting }} to ${{ needs.simple_job.outputs.who }}"
+        run: |
+          echo "Greeting: ${{ steps.set-greeting.outputs.greeting }} to ${{ steps.set-greeting.outputs.who }}"
