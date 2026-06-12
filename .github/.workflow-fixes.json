@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "created": "2026-06-13T00:00:00Z",
+  "last_updated": "2026-06-13T00:00:00Z",
+  "fixes_applied": [
+    {
+      "id": "fix-001",
+      "date": "2026-06-13T10:30:00Z",
+      "workflow": "python.yml",
+      "file": "requirements.txt",
+      "line_range": "1-50",
+      "issue_type": "dependency_conflict",
+      "original_issue": "Flask version mismatch causing import errors",
+      "fix_description": "Updated Flask from 3.0.0 to 3.1.3",
+      "result": "success",
+      "related_failures_resolved": ["run-12345", "run-12346", "run-12347"],
+      "effectiveness": {
+        "failures_before": 3,
+        "failures_after": 0,
+        "date_verified": "2026-06-13T11:15:00Z"
+      },
+      "implemented_by": "developer@example.com",
+      "notes": "Verified in local testing before deployment"
+    }
+  ],
+  "patterns": {
+    "most_common_issues": [
+      {
+        "issue_type": "dependency_error",
+        "frequency": 5,
+        "affected_workflows": ["python.yml", "docker.yaml"],
+        "typical_cause": "Version conflicts between dependencies"
+      },
+      {
+        "issue_type": "auth_failure",
+        "frequency": 2,
+        "affected_workflows": ["docker.yaml", "k3s.yaml"],
+        "typical_cause": "Docker registry or Kubernetes credentials"
+      }
+    ],
+    "repeat_offenders": [
+      {
+        "file": "requirements.txt",
+        "issues_found": 3,
+        "last_issue": "2026-06-13T10:00:00Z"
+      },
+      {
+        "file": "Dockerfile",
+        "issues_found": 2,
+        "last_issue": "2026-06-12T15:30:00Z"
+      }
+    ]
+  },
+  "statistics": {
+    "total_fixes_applied": 1,
+    "success_rate": 100,
+    "average_resolution_time_minutes": 45,
+    "total_failures_prevented": 3
+  }
+}

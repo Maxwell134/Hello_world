@@ -22,6 +22,7 @@ jobs:
           scan-ref: '.'
           format: 'table'
           severity: 'HIGH,CRITICAL'
+          exit-code: '1'
 
   automerge:
     needs: trivy
@@ -36,33 +37,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Enable auto merge with retry
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -e
-
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          MAX_ATTEMPTS=3
-          ATTEMPT=1
-          DELAY=10
-
-          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
-            echo "Attempt $ATTEMPT of $MAX_ATTEMPTS..."
-
-            if gh pr merge $PR_NUMBER --merge --auto; then
-              echo "Auto-merge enabled successfully"
-              exit 0
-            fi
-
-            if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
-              echo "Auto-merge failed. Waiting ${DELAY}s before retry..."
-              sleep $DELAY
-              DELAY=$((DELAY * 2))
-            fi
-
-            ATTEMPT=$((ATTEMPT + 1))
-          done
-
-          echo "Failed to enable auto-merge after $MAX_ATTEMPTS attempts"
-          exit 1
+      - name: Enable auto merge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: merge
+          auto-merge: true

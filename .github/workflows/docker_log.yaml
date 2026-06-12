@@ -1,1 +1,50 @@
+name: Docker Log Workflow
 
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-log:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t hello-world-app .
+
+      - name: Run Docker container
+        run: |
+          docker run --name hello-world-app -d -p 8080:80 hello-world-app
+
+      - name: Wait for container startup
+        run: |
+          sleep 5
+
+      - name: Show Docker container logs
+        run: |
+          docker logs hello-world-app || true
+
+      - name: Show Docker containers
+        run: docker ps -a
+
+      - name: Show Docker images
+        run: docker images
+
+      - name: Stop and remove container
+        if: always()
+        run: |
+          docker stop hello-world-app || true
+          docker rm hello-world-app || true
