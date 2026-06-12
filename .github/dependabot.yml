@@ -1,12 +1,15 @@
 version: 2
+
 updates:
-    - package-ecosystem: "pip"
-      directory: "/"
-      schedule:
-        interval: "daily"
-      open-pull-requests-limit: 3
-      labels:
-        - "dependencies"
-      reviewers:
-        - "dependabot"
-        - "Maxwell134"
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+    open-pull-requests-limit: 3
+
+    labels:
+      - "dependencies"
+
+    reviewers:
+      - "Maxwell134"
