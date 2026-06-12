@@ -9,41 +9,62 @@ permissions:
   pull-requests: write
 
 jobs:
-  automerge:
-    if: github.actor == 'dependabot[bot]' && github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'maxwell134'
+  shellcheck:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Run ShellCheck Review
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          path: "."
+          pattern: "*.sh"
+          exclude: "./.git/*"
+          check_all_files_with_shebangs: "false"
+
+  automerge:
+    needs: shellcheck
+
+    if: >
+      (github.actor == 'dependabot[bot]' &&
+       github.event.pull_request.user.login == 'dependabot[bot]')
+      || github.event.pull_request.user.login == 'maxwell134'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Enable auto merge with retry
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          #!/bin/bash
           set -e
-          
+
           PR_NUMBER=${{ github.event.pull_request.number }}
           MAX_ATTEMPTS=3
           ATTEMPT=1
           DELAY=10
-          
+
           while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
             echo "Attempt $ATTEMPT of $MAX_ATTEMPTS..."
-            
+
             if gh pr merge $PR_NUMBER --merge --auto; then
               echo "Auto-merge enabled successfully"
               exit 0
             fi
-            
+
             if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
               echo "Auto-merge failed. Waiting ${DELAY}s before retry..."
               sleep $DELAY
-              DELAY=$((DELAY * 2))  # Exponential backoff
+              DELAY=$((DELAY * 2))
             fi
-            
+
             ATTEMPT=$((ATTEMPT + 1))
           done
-          
+
           echo "Failed to enable auto-merge after $MAX_ATTEMPTS attempts"
           exit 1
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
