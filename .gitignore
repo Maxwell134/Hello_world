@@ -1,0 +1,56 @@
+# Environment variable files
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# Secret files
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
+*.vault
+*.secret
+*.secrets
+*.enc
+*credentials*.json
+*secret*.json
+
+# GitHub Actions / CI secrets and temporary files
+.github/*_secret*
+.github/**/secrets*
+.github/**/*.secret
+.github/**/*.enc
+
+# Docker and Kubernetes local files
+docker-compose.override.yml
+docker-compose.*.yml
+.kube/
+*.kubeconfig
+
+# Python environments and cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+venv*/
+.env.bak/
+.venv/
+.pytest_cache/
+
+# Editor and OS files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini
