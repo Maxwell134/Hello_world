@@ -1,5 +1,8 @@
 name: Use Docker Login Action
 
+permissions:
+  contents: read
+
 on:
   # push:
   #   branches:
