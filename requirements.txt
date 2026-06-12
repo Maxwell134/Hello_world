@@ -3,6 +3,7 @@ annotated-types==0.1.0
 anyio==4.13.0
 async-timeout==5.0.1
 beautifulsoup4==4.14.3
+urllib3==1.25.8
 blinker==1.9.0
 certifi==2026.5.20
 cffi==2.0.0
@@ -55,7 +56,6 @@ SQLAlchemy==2.0.50
 tenacity==9.1.4
 typing-inspection==0.4.2
 typing_extensions==4.15.0
-urllib3==2.7.0
 uuid_utils==0.16.0
 websockets==16.0
 Werkzeug==3.1.8
