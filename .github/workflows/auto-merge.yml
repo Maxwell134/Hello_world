@@ -9,24 +9,22 @@ permissions:
   pull-requests: write
 
 jobs:
-  shellcheck:
+  trivy:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run ShellCheck Review
-        uses: reviewdog/action-shellcheck@v1
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
-          path: "."
-          pattern: "*.sh"
-          exclude: "./.git/*"
-          check_all_files_with_shebangs: "false"
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
 
   automerge:
-    needs: shellcheck
+    needs: trivy
 
     if: >
       (github.actor == 'dependabot[bot]' &&
