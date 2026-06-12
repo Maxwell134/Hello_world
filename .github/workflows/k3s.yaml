@@ -3,6 +3,9 @@ name: CI/CD Pipeline for Nginx on K3s
 on:
   workflow_dispatch
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
