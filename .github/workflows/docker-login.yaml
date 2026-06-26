@@ -14,8 +14,7 @@ jobs:
       - name: set docker username 
         id: docker
         run: |
-          echo "docker-login=$(echo ${{ secrets.DOCKER_USERNAME }} | base64)" >> $GITHUB_ENV
-
+          echo "docker-login=${{ secrets.DOCKER_USERNAME }}" >> $GITHUB_OUTPUT
 
   user-outputs:
     runs-on: ubuntu-latest
