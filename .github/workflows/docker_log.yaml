@@ -12,6 +12,11 @@ permissions:
 
 jobs:
   docker-log:
+    if: >
+      github.actor == 'Maxwell' ||
+      github.actor == 'dependabot[bot]' ||
+      github.event_name == 'workflow_dispatch'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -22,20 +27,16 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        run: |
-          docker build -t hello-world-app .
+        run: docker build -t hello-world-app .
 
       - name: Run Docker container
-        run: |
-          docker run --name hello-world-app -d -p 8080:80 hello-world-app
+        run: docker run --name hello-world-app -d -p 8080:80 hello-world-app
 
       - name: Wait for container startup
-        run: |
-          sleep 5
+        run: sleep 5
 
       - name: Show Docker container logs
-        run: |
-          docker logs hello-world-app || true
+        run: docker logs hello-world-app || true
 
       - name: Show Docker containers
         run: docker ps -a
