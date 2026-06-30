@@ -2,10 +2,16 @@ name: Testing Docker Login
 
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        type: choice
+        options:
+          - self-hosted
+          - ubuntu-latest
 
 jobs:
   set-output:
-    runs-on: self-hosted
+    runs-on: ${{ inputs.runner }}
 
     outputs:
       docker-login: ${{ steps.docker.outputs.login }}
@@ -19,7 +25,7 @@ jobs:
           
 
   use-output:
-    runs-on: self-hosted
+    runs-on: ${{ inputs.runner }}
     needs: set-output
 
     steps:
