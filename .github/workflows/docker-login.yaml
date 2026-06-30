@@ -4,7 +4,7 @@ on:
 
 jobs:
   set-output:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       docker-login: ${{ steps.docker.outputs.docker-login }}
 
@@ -17,7 +17,7 @@ jobs:
           echo "docker-login=${{ secrets.DOCKER_USERNAME }}" >> $GITHUB_OUTPUT
 
   user-outputs:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: set-output
     steps:
       - name: Checkout code
