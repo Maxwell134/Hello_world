@@ -1,30 +1,41 @@
-# name: Simple Workflow with Input and Output
+name: Simple Workflow with Input and Output
 
-# on:
-#   workflow_dispatch:
-# jobs:
-#   simple_job:
-#     runs-on: ubuntu-latest
+on:
+  workflow_dispatch:
+    inputs:
+      greeting:
+        description: Greeting message
+        required: true
+        type: string
+      who-to-greet:
+        description: Name to greet
+        required: true
+        type: string
 
-#     inputs:
-#       parameters:
-#         - name: greeting
-#           description: 'Greeting message'
-#           required: true
-#         - name: who-to-greet
-#           description: 'Name to greet'
-#           required: true
+jobs:
+  simple_job:
+    runs-on: ubuntu-latest
 
-#     outputs:
-#       id: greeting-output
-#       value:
-#         greeting: ${{ needs.simple_job.outputs.greeting }}
-#         who: ${{ needs.simple_job.outputs.who }}
+    outputs:
+      greeting: ${{ steps.set-greeting.outputs.greeting }}
+      who: ${{ steps.set-greeting.outputs.who }}
 
-#     steps:
-#       - name: Set Greeting and Who
-#         id: set-greeting
-#         run: echo "::set-output name=greeting::${{ inputs.greeting }}::set-output name=who::${{ inputs.who-to-greet }}"
+    steps:
+      - name: Set Greeting and Who
+        id: set-greeting
+        run: |
+          echo "greeting=${{ github.event.inputs.greeting }}" >> $GITHUB_OUTPUT
+          echo "who=${{ github.event.inputs['who-to-greet'] }}" >> $GITHUB_OUTPUT
 
-#       # - name: Show Greeting
-#       #   run:  echo "Greeting: ${{ needs.simple_job.outputs.greeting }} to ${{ needs.simple_job.outputs.who }}"'
+
+  second_job:
+    runs-on: ubuntu-latest
+    needs: simple_job
+
+    steps:
+      - run: |
+          echo "Greeting: ${{ needs.simple_job.outputs.greeting }} to ${{ needs.simple_job.outputs.who }}"
+
+      - name: Show Greeting
+        run: |
+          echo "Greeting: ${{ steps.set-greeting.outputs.greeting }} to ${{ steps.set-greeting.outputs.who }}"
