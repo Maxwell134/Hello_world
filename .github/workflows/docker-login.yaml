@@ -8,14 +8,14 @@ jobs:
     runs-on: self-hosted
 
     outputs:
-      docker-login: ${{ steps.docker.outputs.docker-login }}
+      docker-login: ${{ steps.docker.outputs.login }}
 
     steps:
       - uses: actions/checkout@v4
 
       - id: docker
         run: |
-          echo "docker-login=${{ secrets.DOCKER_USERNAME }}" >> "$GITHUB_OUTPUT"
+          echo "login=${{ vars.DOCKER_USERNAME }}" >> "$GITHUB_OUTPUT"
           
 
   use-output:
