@@ -4,6 +4,7 @@ permissions:
   actions: read
   contents: read
   id-token: write
+  repository-projects: write
   
 on:
   workflow_dispatch:
