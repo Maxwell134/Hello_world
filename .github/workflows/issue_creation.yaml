@@ -1,25 +1,40 @@
 name: Create Issue on Failure
 
+permissions:
+  issues: write
+  contents: read
+
 on:
-    workflow_run:
-        workflows: ["Checking Docker Login"]
-        types: 
-            - completed 
-    
-jobs: 
-    create-issues:
+  workflow_run:
+    workflows:
+      - "Checking Docker Login"
+    types:
+      - completed
 
-        if: ${{ github.event.workflow_run.conclusion == 'failure'}}
-        runs-on: ubuntu-latest 
+jobs:
+  create-issue:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
 
-        steps:
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: checkout 
-              uses: actions/checkout@v4
+      - name: Create issue content
+        run: |
+          cat <<EOF > issue.md
+          ## Workflow Failed
 
-              
-            - name: Create Issue
-              uses: peter-evans/create-issue-from-file@v5
-              with:
-                title: "Workflow Failed - ${{ github.event.workflow_run.name }}"
-                content-filepath: issue.md
+          **Workflow:** ${{ github.event.workflow_run.name }}
+
+          **Repository:** ${{ github.repository }}
+
+          **Run URL:** ${{ github.event.workflow_run.html_url }}
+
+          **Conclusion:** ${{ github.event.workflow_run.conclusion }}
+          EOF
+
+      - name: Create Issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Workflow Failed - ${{ github.event.workflow_run.name }}"
+          content-filepath: issue.md
