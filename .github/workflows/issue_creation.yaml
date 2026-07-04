@@ -1,8 +1,9 @@
 name: Create Issue on Failure
 
 permissions:
-  issues: write
+  actions: read
   contents: read
+  issues: write
 
 on:
   workflow_run:
@@ -17,24 +18,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Create issue content
+      - name: Download logs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cat <<EOF > issue.md
-          ## Workflow Failed
+          gh run view ${{ github.event.workflow_run.id }} --log > workflow.log
 
-          **Workflow:** ${{ github.event.workflow_run.name }}
+      - name: Create issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "## Workflow Failed"
+            echo
+            echo "**Workflow:** ${{ github.event.workflow_run.name }}"
+            echo
+            echo "**Run:** ${{ github.event.workflow_run.html_url }}"
+            echo
+            echo "### Logs"
+            echo '```'
+            cat workflow.log
+            echo '```'
+          } > issue.md
 
-          **Repository:** ${{ github.repository }}
-
-          **Run URL:** ${{ github.event.workflow_run.html_url }}
-
-          **Conclusion:** ${{ github.event.workflow_run.conclusion }}
-          EOF
-
-      - name: Create Issue
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: "Workflow Failed - ${{ github.event.workflow_run.name }}"
-          content-filepath: issue.md
+          gh issue create \
+            --title "Workflow Failed - ${{ github.event.workflow_run.name }}" \
+            --body-file issue.md
