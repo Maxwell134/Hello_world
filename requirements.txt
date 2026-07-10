@@ -39,7 +39,7 @@ MarkupSafe==3.0.3
 ollama==0.6.2
 orjson==3.11.9
 packaging==26.2
-proto-plus==1.28.0
+proto-plus==1.28.1
 protobuf==7.35.1
 pur==7.4.0
 pyasn1==0.6.3
