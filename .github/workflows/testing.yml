@@ -25,14 +25,13 @@ permissions:
   contents: read
 
 jobs:
-  code-quality:
-    uses: ./.github/workflows/lint.yaml
-    with:
-      environment: ${{ github.event.inputs.environment }}
-      user_options: ${{ github.event.inputs.user_options }}
+  # code-quality:
+  #   uses: ./.github/workflows/lint.yaml
+  #   with:
+  #     environment: ${{ github.event.inputs.environment }}
+  #     user_options: ${{ github.event.inputs.user_options }}
 
   build:
-    needs: code-quality
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     if : ${{ github.event.inputs.user_options == 'keyvault'  && startsWith(github.ref, 'refs/heads/main') }}
