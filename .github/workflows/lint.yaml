@@ -1,0 +1,37 @@
+name: Code Quality Check
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: string
+        
+      user_options:
+        description: 'User options'
+        required: false
+        type: string
+       
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Check Formatting (Prettier)
+      run: npm run format:check
+
+    - name: Run Linter (ESLint)
+      run: npm run lint
